@@ -1,6 +1,6 @@
 //
-//  UIViewAdditions.h
-//  Created by Devin Ross on 7/25/09.
+//  TKTimeGraphController.h
+//  Created by Devin Ross on 7/24/09.
 //
 /*
  
@@ -29,33 +29,16 @@
  
  */
 
-
 #import <UIKit/UIKit.h>
+#import "TKGraphView.h"
 
-/** Additional functionality for `UIView`.  */
-@interface UIView (TKCategory)
+@interface TKGraphController : UIViewController    {
+	UIButton *close;
+	TKGraphView *graph;
+	UIStatusBarStyle statusColor;
+}
+@property (nonatomic,retain) TKGraphView *graph;
 
-
-/** Adds a view to the beginning of the receiver’s list of subviews.
- @param view The view to be added. This view is retained by the receiver. After being added, this view appears below of any other subviews.
- */
-- (void) addSubviewToBack:(UIView*)view;
-
-/** Rounds of views frame coordinates to the nearest integer. */
-- (void) roundOffFrame;
-
-// DRAW GRADIENT
-+ (void) drawGradientInRect:(CGRect)rect withColors:(NSArray*)colors;
-+ (void) drawLinearGradientInRect:(CGRect)rect colors:(CGFloat[])colors;
-
-
-// DRAW ROUNDED RECTANGLE
-+ (void) drawRoundRectangleInRect:(CGRect)rect withRadius:(CGFloat)radius;
-
-// DRAW LINE
-+ (void) drawLineInRect:(CGRect)rect red:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue alpha:(CGFloat)alpha;
-+ (void) drawLineInRect:(CGRect)rect colors:(CGFloat[])colors;
-+ (void) drawLineInRect:(CGRect)rect colors:(CGFloat[])colors width:(CGFloat)lineWidth cap:(CGLineCap)cap;
-
+- (id) init;
 
 @end

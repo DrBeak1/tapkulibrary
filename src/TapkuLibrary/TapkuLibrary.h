@@ -27,6 +27,12 @@
 
 #import "TKGlobal.h"
 
+// GRAPH
+#import "TKGraphController.h"
+#import "TKGraphView.h"
+#import "GraphController.h"
+
+
 // ADDITIONS
 #import "NSString+TKCategory.h"
 #import "NSDate+TKCategory.h"
