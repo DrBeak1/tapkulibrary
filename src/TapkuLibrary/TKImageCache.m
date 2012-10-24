@@ -210,13 +210,10 @@
 
 
 
-- (void) removeAllObjects{
-	[super removeAllObjects];
-	[self cancelOperations];
-}
 - (void) cancelOperations{
 	[_imagesQueue cancelAllOperations];
 	dispatch_async(cache_queue,^{
+		
 		[_requestKeys removeAllObjects];
 	});
 }

@@ -36,8 +36,7 @@
 @synthesize pk = _pk,
 value = _value,
 aDate = _aDate,
-forTime = _forTime,
-pointTitle = _pointTitle;
+forTime = _forTime;
 
 -(id)initWithID:(int)pkv value:(NSNumber*)number andDate:(NSDate *)date forTime:(BOOL)isForTime 
 {
@@ -54,19 +53,6 @@ pointTitle = _pointTitle;
 	
 }
 
--(id)initWithTitle:(NSString *)title andID:(int)pkv value:(NSNumber *)number forTime:(BOOL)isForTime
-{
-    if(!(self=[super init])) return nil;
-    
-    self.pk = pkv;
-    self.value = number;
-    self.forTime = isForTime;
-	self.pointTitle = title;
-    
-	return self;
-}
-
-
 -(NSNumber*)yValue 
 {
     return self.value;        
@@ -74,7 +60,10 @@ pointTitle = _pointTitle;
 
 -(NSString*)xLabel
 {
-	return self.pointTitle;
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateStyle:NSDateFormatterShortStyle];
+    
+	return [NSString stringWithFormat:@"%@",[formatter stringFromDate:self.aDate]];
 }
 
 - (NSString*)yLabel
@@ -103,9 +92,7 @@ wodNameString = _wodNameString,
 isForTime = _isForTime,
 recordIndex = _recordIndex,
 data = _data,
-indicator = _indicator,
-dataSet = _dataSet,
-isForDifferencesCurve = _isForDifferencesCurve;
+indicator = _indicator;
 
 -(NSMutableArray *)data
 {
@@ -120,18 +107,7 @@ isForDifferencesCurve = _isForDifferencesCurve;
 	self.lowestNumber = 1000000000;
 	self.graph.title.text = self.wodNameString;
 	[self.graph setPointDistance:50];
-	
-	
-    [self setupCurveData];
-    
-    if (!self.isForTime) {
-        [self.graph setGraphWithDataPoints:self.data];
-
-    } else {
-        [self.graph setGraphWithDataPoints:self.data];
-    }
-    
-    /*
+		
     [self setupOriginaldata];
 	
 	if (!self.isForTime) {
@@ -149,40 +125,12 @@ isForDifferencesCurve = _isForDifferencesCurve;
         [self.graph showIndicatorForPoint:self.recordIndex];
         //  [self.graph scrollToPoint:self.recordIndex animated:YES];
     }
-     */
+
 	
     self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 
 	
 }
-
--(void)setupCurveData
-{
-
-    NSMutableArray *points = [[NSMutableArray alloc] init];
-    int a = 0;
-    for (a = 0; a < [self.dataSet count]; a++) {
-        NSDictionary *dictionary = [[NSDictionary alloc] initWithDictionary:[self.dataSet objectAtIndex:a]];
-        NSString *title = [dictionary objectForKey:@"title"];
-        
-        NSNumberFormatter *format = [[NSNumberFormatter alloc] init];
-        [format setMinimumFractionDigits:3];
-        [format setMaximumFractionDigits:3];
-        
-        NSNumber *seconds = [dictionary objectForKey:@"mps"];
-                
-        GraphPoint *gp = [[GraphPoint alloc] initWithTitle:title andID:a value:seconds forTime:self.isForTime];
-        [points addObject:gp];
-    }
-    
-    if (!self.isForDifferencesCurve) {
-        NSArray *reverse = [[points reverseObjectEnumerator] allObjects];
-        self.data = [NSMutableArray arrayWithArray:reverse];
-    } else {
-        self.data = [NSMutableArray arrayWithArray:points];
-    }
-}
-
 
 -(void)setupOriginaldata
 {
@@ -257,27 +205,6 @@ isForDifferencesCurve = _isForDifferencesCurve;
 {
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
-}
-
-#pragma mark - ROTATION METHODS
-
-#pragma mark - <6.0
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    //    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-    return ([self supportedInterfaceOrientations] & (1 << interfaceOrientation));
-}
-
-#pragma mark - 6.0 and >
--(NSUInteger)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskLandscape;
-    
-}
-
--(BOOL)shouldAutorotate
-{
-    return NO;
 }
 
 

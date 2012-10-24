@@ -47,8 +47,6 @@
 @property(assign)NSInteger lowestNumber;
 @property(assign)NSTimeInterval earliestDate;
 @property(assign)NSTimeInterval latestDate;
-@property(nonatomic, retain)NSArray *dataSet;
-@property(assign)BOOL isForDifferencesCurve;
 
 -(void)setupOriginaldata;
 
@@ -62,10 +60,8 @@
 @property(nonatomic, retain)NSNumber *value;
 @property(nonatomic, retain)NSDate *aDate;
 @property(assign)BOOL forTime;
-@property(nonatomic, copy)NSString *pointTitle;
 
 - (id) initWithID:(int)pk value:(NSNumber*)number andDate:(NSDate *)date forTime:(BOOL)isForTime;
--(id)initWithTitle:(NSString *)title andID:(int)pkv value:(NSNumber *)number forTime:(BOOL)isForTime;
 
 
 @end

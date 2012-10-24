@@ -499,7 +499,7 @@ static float highValue;
 	
 	//int row = i;
 	
-	NSString *str = [NSString stringWithFormat:@"%f",[[d yValue] floatValue]];
+	NSString *str = [d yLabel];
 	
 	BOOL  up = y - INDICATOR_HEIGHT - 10 < 10 ? NO : YES;
 	
@@ -607,8 +607,8 @@ static float highValue;
 - (void) drawBackground:(CGContextRef)context
 {
 	// GRAY BACKGROUND 
-	CGContextSetRGBFillColor(context, 0.5, 0.5, 0.5, 1.0);
-    //CGContextSetRGBFillColor(context, 121.0/255.0, 175.0/255.0, 219.0/255.0, 1.0);
+//	CGContextSetRGBFillColor(context, 1, 1, 1, 1.0);
+    CGContextSetRGBFillColor(context, 121.0/255.0, 175.0/255.0, 219.0/255.0, 1.0);
     if ([[UIDevice currentDevice] resolution]==UIDeviceResolution_iPhoneRetina4) {
         CGContextFillRect(context, CGRectMake(0, 0, 568.0, 300.0));
         CGContextSetRGBFillColor(context, 240.0/255.0, 240.0/255.0, 240.0/255.0, 0.4);

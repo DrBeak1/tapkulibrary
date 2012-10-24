@@ -50,9 +50,11 @@
 	NSRange deck;
 	
 	
-	NSInteger margin, coverBuffer, currentIndex;
-	CGFloat spaceFromCurrent;
+	NSInteger margin, coverBuffer, currentIndex, numberOfCovers;
+	CGSize coverSize;
+	CGFloat coverSpacing,coverAngle,spaceFromCurrent;
 	CATransform3D leftTransform, rightTransform;
+	
 	CGSize boundSize;
 	
 	// SPEED

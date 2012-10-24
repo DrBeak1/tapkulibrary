@@ -27,12 +27,6 @@
 
 #import "TKGlobal.h"
 
-// GRAPH
-#import "TKGraphController.h"
-#import "TKGraphView.h"
-#import "GraphController.h"
-
-
 // ADDITIONS
 #import "NSString+TKCategory.h"
 #import "NSDate+TKCategory.h"
@@ -60,6 +54,13 @@
 #import "TKNetworkQueue.h"
 #import "TKHTTPRequest.h"
 #import "TKImageCache.h"
+
+// GRAPH
+#import "TKGraphController.h"
+#import "TKGraphView.h"
+#import "GraphController.h"
+
+
 
 // CELLS
 #import "TKLabelCell.h"

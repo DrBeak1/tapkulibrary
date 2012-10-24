@@ -120,13 +120,6 @@
 }
 
 
-- (NSString *) monthYearString {
-	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-	dateFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"yMMMM"
-															   options:0
-																locale:[NSLocale currentLocale]];
-	return [dateFormatter stringFromDate:self];
-}
 
 - (NSString*) monthString{
 	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];	
