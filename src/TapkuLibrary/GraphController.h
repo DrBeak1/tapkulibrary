@@ -49,6 +49,7 @@
 @property(assign)NSTimeInterval latestDate;
 
 -(void)setupOriginaldata;
+-(id)initWithDataSet:(NSMutableArray *)dataSet;
 
 
 @end

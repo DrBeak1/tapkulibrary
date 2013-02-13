@@ -132,9 +132,10 @@ static float highValue;
 	label = [[UILabel alloc] initWithFrame:CGRectMake(3, y, INDICATOR_WIDTH - 6, 20)];
 	label.text = str;
 	label.font = [UIFont boldSystemFontOfSize:14.0];
-	label.minimumFontSize = 10.0;
+    
+	label.minimumScaleFactor = 10.0;
 	label.adjustsFontSizeToFitWidth = YES;
-	label.textAlignment = UITextAlignmentCenter;
+	label.textAlignment = NSTextAlignmentCenter;
 	label.backgroundColor = [UIColor clearColor];
 
 	[self addSubview:label];
@@ -370,7 +371,7 @@ static float highValue;
 	titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 	titleLabel.backgroundColor = [UIColor clearColor];
 	titleLabel.font = [UIFont boldSystemFontOfSize:16.0];
-	titleLabel.textAlignment = UITextAlignmentCenter;
+	titleLabel.textAlignment = NSTextAlignmentCenter;
 	[self addSubview:titleLabel];
 	
 	CGRect r = CGRectInset(frame,60, 8);
@@ -483,15 +484,23 @@ static float highValue;
 
 - (void) showIndicatorForPoint:(int)point{
 	int i = point;
-	
-	if(i >= [data count])
+	if(i >= [data count]) {
 		i = [data count] - 1;
-	else if(i < 0)
+    } else if(i < 0) {
 		i = 0;
+    }
+    
+    if (i<0) {
+        i = 0;
+    }
 	
-	NSObject <TKGraphViewPoint> *d = [data objectAtIndex:i];
-	
-	if([d yValue] == nil) return;
+    NSLog(@"i = %i", i);
+	NSObject <TKGraphViewPoint> *d;
+    
+    d = [data objectAtIndex:i];
+
+    
+	if (!d.yValue) { return; }
 	
 	
 	float y = [self valueToYCoordinate:[[d yValue] floatValue]];

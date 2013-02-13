@@ -28,6 +28,7 @@
 #import "TKGlobal.h"
 
 // ADDITIONS
+#import "NSObject+TKCategory.h"
 #import "NSString+TKCategory.h"
 #import "NSDate+TKCategory.h"
 #import "NSArray+TKCategory.h"
@@ -37,7 +38,7 @@
 #import "UIImageView+TKCategory.h"
 #import "UIScrollview+TKCategory.h"
 #import "UIButton+TKCategory.h"
-#import "UIViewController+TKCategory.h"
+//#import "UIDevice+Resolutions.h"
 
 
 #import "TKWindow.h"
@@ -54,11 +55,6 @@
 #import "TKNetworkQueue.h"
 #import "TKHTTPRequest.h"
 #import "TKImageCache.h"
-
-// GRAPH
-#import "TKGraphController.h"
-#import "TKGraphView.h"
-#import "GraphController.h"
 
 
 
@@ -80,7 +76,10 @@
 #import "TKProgressAlertView.h"
 #import "TKProgressCircleView.h"
 
-
+// Graph
+#import "GraphController.h"
+#import "TKGraphController.h"
+#import "TKGraphView.h"
 
 
 // Calendar
@@ -91,8 +90,3 @@
 
 // Coverflow
 #import "TKCoverflowView.h"
-#import "TKCoverflowCoverView.h"
-
-
-#import "TKMapView.h"
-#import "TKMapPlace.h"

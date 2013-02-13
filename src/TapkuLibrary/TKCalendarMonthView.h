@@ -40,13 +40,13 @@
 @interface TKCalendarMonthView : UIView {
 
 	TKCalendarMonthTiles *currentTile,*oldTile;
-	UIButton *leftArrow, *rightArrow;
-	UIImageView *topBackground, *shadow;
-	UILabel *monthYear;
-	UIScrollView *tileBox;
+	//UIButton *leftArrow, *rightArrow;
+	//UIImageView *topBackground, *shadow;
+	//UILabel *monthYear;
 	BOOL sunday;
 
 }
+
 
 /** Initialize a Calendar Month Grid.
  @param sunday Flag to setup the grid with Monday or Sunday as the leftmost day.

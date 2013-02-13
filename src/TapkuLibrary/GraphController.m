@@ -100,6 +100,24 @@ indicator = _indicator;
     return _data;
 }
 
+-(NSMutableArray *)originalData
+{
+    if (!_originalData) { _originalData = [[NSMutableArray alloc] init]; }
+    return _originalData;
+}
+
+-(id)initWithDataSet:(NSMutableArray *)dataSet
+{
+    self = [super init];
+    if (self) {
+        
+        self.originalData = dataSet;
+        
+    }
+    
+    return self;
+}
+
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
@@ -134,26 +152,30 @@ indicator = _indicator;
 
 -(void)setupOriginaldata
 {
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-	NSString *documentsDirectory = [paths objectAtIndex:0];
-	NSString *filePath = [documentsDirectory stringByAppendingString:@"/DataFile.plist"];
-	NSArray *load = [NSArray arrayWithContentsOfFile:filePath];
-	self.originalData = [NSMutableArray arrayWithArray:load];
     
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"theDate" ascending:TRUE];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:TRUE];
     [self.originalData sortUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
 
     int a;
     for (a = 0; a < [self.originalData count]; a++) {
         NSDictionary *dic = [[NSDictionary alloc] initWithDictionary:[self.originalData objectAtIndex:a]];
-        NSString *name = [dic objectForKey:@"theName"];
+        NSString *name = [dic objectForKey:@"title"];
         if ([name isEqualToString:self.wodNameString]) {            
             
-            NSDate *date = [dic objectForKey:@"theDate"];
-            
-            if ([[dic objectForKey:@"theScoreType"] isEqualToString:@"For Time:"]) {
+            NSString *wodDateString = [dic objectForKey:@"date"];
+            NSDateFormatter *updatedStringFormatter = [[NSDateFormatter alloc] init];
+            [updatedStringFormatter setDateFormat:@"yyyy-MM-dd"];
+            NSDate *date = [updatedStringFormatter dateFromString:wodDateString];
+            if (!date) {
+                NSDateFormatter *stringFormat = [[NSDateFormatter alloc] init];
+                [stringFormat setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+                [stringFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss +0000"];
+                date  = [stringFormat dateFromString:wodDateString];
+            }
+                        
+            if ([[dic objectForKey:@"scoreType"] isEqualToString:@"For Time:"]) {
                 self.isForTime = YES;
-                NSString *timeString = [dic objectForKey:@"theScore"];
+                NSString *timeString = [dic objectForKey:@"score"];
                 if ([timeString isEqualToString:@""]) {
                     timeString = @"0:00";
                 }
@@ -172,10 +194,10 @@ indicator = _indicator;
             } else {
                 self.isForTime = NO;
                 NSInteger score;
-                if ([[dic objectForKey:@"theScore"] isEqualToString:@""]) {
+                if ([[dic objectForKey:@"score"] isEqualToString:@""]) {
                     score = 0;
                 } else {
-                   score = [[dic objectForKey:@"theScore"] intValue]; 
+                   score = [[dic objectForKey:@"score"] intValue]; 
                 }
 
                 if (score > self.highestNumber) {

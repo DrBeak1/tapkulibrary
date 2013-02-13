@@ -35,7 +35,7 @@
 @implementation NSArrayTests
 
 
-- (void) tesFirstObject{
+- (void) testFirstObject{
 	
 	
 	STAssertNil([[NSArray array] firstObject],nil);
