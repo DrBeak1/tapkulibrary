@@ -331,6 +331,7 @@
                 if (index<marks.count) {
                     [self drawTileInRect:r day:i mark:[[marks objectAtIndex:index] boolValue] font:font font2:font2];
                 }
+
 			} else {
 				[self drawTileInRect:r day:i mark:NO font:font font2:font2];
             }
@@ -350,6 +351,7 @@
             if (index<marks.count) {
                 [self drawTileInRect:r day:i mark:[[marks objectAtIndex:index] boolValue] font:font font2:font2];
             }
+
         } else {
             [self drawTileInRect:r day:i mark:NO font:font font2:font2];
         }
@@ -365,6 +367,7 @@
             if (index<marks.count) {
                 [self drawTileInRect:r day:i mark:[[marks objectAtIndex:index] boolValue] font:font font2:font2];
             }
+
         } else {
             [self drawTileInRect:r day:i mark:NO font:font font2:font2];
         }
@@ -844,6 +847,7 @@
 }
 - (void) selectDate:(NSDate*)date{
 	TKDateInformation info = [date dateInformationWithTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+
 	NSDate *month = [date firstOfMonth];
 	
 	if([month isEqualToDate:[currentTile monthDate]]){
@@ -880,6 +884,7 @@
 		
 	}
 }
+
 - (void) reload{
 	NSArray *dates = [TKCalendarMonthTiles rangeOfDatesInMonthGrid:[currentTile monthDate] startOnSunday:sunday];
 	NSArray *ar = [self.dataSource calendarMonthView:self marksFromDate:[dates objectAtIndex:0] toDate:[dates lastObject]];
