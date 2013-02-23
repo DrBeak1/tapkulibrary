@@ -283,7 +283,6 @@
 	
     
 	r.size.height -= 2;
-#warning new line break calls may not work in iOS 5 be sure to test
 	[str drawInRect: r
 		   withFont: f1
 	  lineBreakMode: NSLineBreakByWordWrapping
