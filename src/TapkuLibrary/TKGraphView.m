@@ -198,7 +198,7 @@ static float highValue;
 	
 	CGContextSaveGState(context);
 	//CONTROLS COLOR OF WEB UNDER PLOT POINTS
-	CGContextSetRGBFillColor(context, (230.0 / 255.0), (242.0/255.0), (250.0 / 255.0), 0.9);
+	CGContextSetRGBFillColor(context, (230.0 / 255.0), (242.0/255.0), (250.0 / 255.0), 0.1);
 
 	CGContextSetLineWidth(context, 0);
 	
@@ -227,13 +227,15 @@ static float highValue;
 	CGContextRestoreGState(context);
 	
 }
+
 - (void) drawPointsLineWithContext:(CGContextRef) context{
 	
 	CGContextSaveGState(context);
 	
     //CONTROLS COLOR OF DRAWN PLOT LINES
-//	CGContextSetRGBStrokeColor(context, 68.0/255.0, 152.0/255.0, 211.0/255.0, 1.0);
-    CGContextSetRGBStrokeColor(context, 38.0/255.0, 78.0/255.0, 113.0/255.0, 1.0);
+//    CGContextSetRGBStrokeColor(context, 38.0/255.0, 78.0/255.0, 113.0/255.0, 1.0);
+    CGContextSetRGBStrokeColor(context, 1.0, 1.0, 1.0, 1.0);
+
 
 	CGContextSetLineWidth(context, 3);
 	CGContextSetLineJoin(context, kCGLineJoinBevel);
@@ -268,10 +270,10 @@ static float highValue;
 	
 }
 - (void) drawPointCirlesWithContext:(CGContextRef) context{
-	
     //CONTROLS COLOR OF PLOT CIRCLES
-//	CGContextSetRGBFillColor(context, 68.0/255.0, 152.0/255.0, 211.0/255.0, 1.0);
+	CGContextSetRGBFillColor(context, 1.0, 1.0, 1.0, 1.0);
     CGContextSetRGBStrokeColor(context, 38.0/255.0, 78.0/255.0, 113.0/255.0, 1.0);
+
 
 	CGContextSetLineWidth(context, 2);
 	
@@ -286,6 +288,8 @@ static float highValue;
 	}
 	
 }
+
+
 - (void) drawXAxisLabelsWithContext:(CGContextRef) context{
 	
 	//int c = [data count] * POINT_DISTANCE;
@@ -300,7 +304,8 @@ static float highValue;
 		
 		float x = (i+1.0) * POINT_DISTANCE + SCROLL_MARGINS;
 		NSObject <TKGraphViewPoint> *d = [data objectAtIndex:i];
-		CGFloat clr[] = {0,0,0,0.3};
+        // CONTROLS COLOR OF THE TICK MARKS ON X AXIS
+		CGFloat clr[] = {1.0,1.0,1.0,1.0};
 		
 		
 		[UIView drawLineInRect:CGRectMake(x-.5, SCROLL_HEIGHT, 0, 6) colors:clr];
@@ -370,8 +375,9 @@ static float highValue;
 	
 	titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 	titleLabel.backgroundColor = [UIColor clearColor];
-	titleLabel.font = [UIFont boldSystemFontOfSize:16.0];
+	titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
 	titleLabel.textAlignment = NSTextAlignmentCenter;
+    titleLabel.textColor = [UIColor whiteColor];
 	[self addSubview:titleLabel];
 	
 	CGRect r = CGRectInset(frame,60, 8);
@@ -407,6 +413,8 @@ static float highValue;
 	touchIndicatorEnabled = YES;
 	goalShown = NO;
 		
+    // CONTROLS BACKGROUND COLOR OF THE GRAPH //
+    self.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"TapkuLibrary.bundle/Images/graph/graph_bg"]];
     
     return self;
 }
@@ -612,7 +620,7 @@ static float highValue;
 	
 }
 
-
+/*
 - (void) drawBackground:(CGContextRef)context
 {
 	// GRAY BACKGROUND 
@@ -629,13 +637,17 @@ static float highValue;
     }
 
 }
+ 
+ */
+
 - (void) drawBottomLine:(CGContextRef)context{
     if ([[UIDevice currentDevice] resolution]==UIDeviceResolution_iPhoneRetina4) {
-        [UIView drawLineInRect:CGRectMake(0, BOTTOM_LINE+.5, 568, 0) red:0 green:0 blue:0 alpha:.4];
+        [UIView drawLineInRect:CGRectMake(0, BOTTOM_LINE+.5, 568, 0) red:1.0 green:1.0 blue:1.0 alpha:1.0];
     } else {
-        [UIView drawLineInRect:CGRectMake(0, BOTTOM_LINE+.5, 480, 0) red:0 green:0 blue:0 alpha:.4];
+        [UIView drawLineInRect:CGRectMake(0, BOTTOM_LINE+.5, 480, 0) red:1.0 green:1.0 blue:1.0 alpha:1.0];
     }
 }
+
 - (void) drawHorizontalLines:(CGContextRef)context
 {
 	
@@ -664,7 +676,7 @@ static float highValue;
 - (void) drawRect:(CGRect)rect {
     // Drawing code
 	CGContextRef context = UIGraphicsGetCurrentContext();
-	[self drawBackground:context];
+	//[self drawBackground:context];
 	[self drawBottomLine:context];
 	//[self drawHorizontalLines:context];
 	
