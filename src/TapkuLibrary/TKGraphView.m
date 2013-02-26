@@ -132,8 +132,8 @@ static float highValue;
 	label = [[UILabel alloc] initWithFrame:CGRectMake(3, y, INDICATOR_WIDTH - 6, 20)];
 	label.text = str;
 	label.font = [UIFont boldSystemFontOfSize:14.0];
-    
-	label.minimumScaleFactor = 10.0;
+
+    label.minimumFontSize = 10.0;
 	label.adjustsFontSizeToFitWidth = YES;
 	label.textAlignment = NSTextAlignmentCenter;
 	label.backgroundColor = [UIColor clearColor];
