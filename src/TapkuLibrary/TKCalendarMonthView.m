@@ -214,6 +214,8 @@
 	
 	return [NSArray arrayWithObjects:firstDate,lastDate,nil];
 }
+
+
 - (id) initWithMonth:(NSDate*)date marks:(NSArray*)markArray startDayOnSunday:(BOOL)sunday{
 	if(!(self=[super initWithFrame:CGRectZero])) return nil;
 
@@ -327,9 +329,14 @@
 		for(int i = firstOfPrev;i<= lastOfPrev;i++){
 			r = [self rectForCellAtIndex:index];
 			if ([marks count] > 0) {
+#ifdef DEBUG
+                NSLog(@"(1) mark count: %i", marks.count);
+                NSLog(@"(1) index: %i", index);
+#endif
                 if (index<marks.count) {
                     [self drawTileInRect:r day:i mark:[[marks objectAtIndex:index] boolValue] font:font font2:font2];
                 }
+
 
 			} else {
 				[self drawTileInRect:r day:i mark:NO font:font font2:font2];
@@ -347,9 +354,15 @@
 		if(today == i) [[UIColor whiteColor] set];
 		
         if ([marks count] > 0) {
+#ifdef DEBUG
+            NSLog(@"(2) mark count: %i", marks.count);
+            NSLog(@"(2) index: %i", index);
+#endif
+
             if (index<marks.count) {
                 [self drawTileInRect:r day:i mark:[[marks objectAtIndex:index] boolValue] font:font font2:font2];
             }
+
 
         } else {
             [self drawTileInRect:r day:i mark:NO font:font font2:font2];
@@ -362,6 +375,10 @@
 	int i = 1;
 	while(index % 7 != 0){
 		r = [self rectForCellAtIndex:index] ;
+#ifdef DEBUG
+        NSLog(@"(3) mark count: %i", marks.count);
+        NSLog(@"(3) index: %i", index);
+#endif
         if ([marks count] > 0) {
             if (index<marks.count) {
                 [self drawTileInRect:r day:i mark:[[marks objectAtIndex:index] boolValue] font:font font2:font2];

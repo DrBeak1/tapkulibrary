@@ -65,7 +65,6 @@
  */
 - (NSDate*) dateSelected;
 
-
 /** The current month date being displayed. 
  @return An `NSDate` object set to the month and year of the current month grid.
  */
