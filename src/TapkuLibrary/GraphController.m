@@ -63,7 +63,11 @@ forTime = _forTime;
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateStyle:NSDateFormatterShortStyle];
     
-	return [NSString stringWithFormat:@"%@",[formatter stringFromDate:self.aDate]];
+    NSString *date = [formatter stringFromDate:self.aDate];
+    
+    
+//	return [NSString stringWithFormat:@"%@",[formatter stringFromDate:self.aDate]];
+    return date;
 }
 
 - (NSString*)yLabel
@@ -154,22 +158,26 @@ indicator = _indicator;
 {
     
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:TRUE];
-    [self.originalData sortUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+    NSArray *descriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
+    [self.originalData sortUsingDescriptors:descriptors];
+    
+    NSDateFormatter *updatedStringFormatter = [[NSDateFormatter alloc] init];
+    [updatedStringFormatter setDateFormat:@"yyyy-MM-dd"];
+    
+    NSDateFormatter *stringFormat = [[NSDateFormatter alloc] init];
+    [stringFormat setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+    [stringFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss +0000"];
 
-    int a;
+    int a = 0;
     for (a = 0; a < [self.originalData count]; a++) {
         NSDictionary *dic = [[NSDictionary alloc] initWithDictionary:[self.originalData objectAtIndex:a]];
         NSString *name = [dic objectForKey:@"title"];
         if ([name isEqualToString:self.wodNameString]) {            
             
             NSString *wodDateString = [dic objectForKey:@"date"];
-            NSDateFormatter *updatedStringFormatter = [[NSDateFormatter alloc] init];
-            [updatedStringFormatter setDateFormat:@"yyyy-MM-dd"];
+
             NSDate *date = [updatedStringFormatter dateFromString:wodDateString];
             if (!date) {
-                NSDateFormatter *stringFormat = [[NSDateFormatter alloc] init];
-                [stringFormat setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
-                [stringFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss +0000"];
                 date  = [stringFormat dateFromString:wodDateString];
             }
                         

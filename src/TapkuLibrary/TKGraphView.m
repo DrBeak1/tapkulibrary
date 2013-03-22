@@ -65,10 +65,12 @@ static float highValue;
 
 - (id) init{
 	
-	if(![super initWithFrame:CGRectMake(0, 0, 100, 18)]) 
-		return nil;
-	
-	self.backgroundColor = [UIColor clearColor];
+//	if(![super initWithFrame:CGRectMake(0, 0, 100, 18)]) return nil;
+    
+    self = [super initWithFrame:CGRectMake(0, 0, 100, 18)];
+    if (self) {
+        self.backgroundColor = [UIColor clearColor];
+    }
 	
 	return self;
 }
@@ -113,35 +115,39 @@ static float highValue;
 
 - (id)initWithFrame:(CGRect)frame title:(NSString*)str sideUp:(BOOL)up{
 	
-	if(![super initWithFrame:frame]) return nil;
-	
-	int y;
-	UIImage *img;
-	
-	if(up){
-		img = [UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/graph/popup"];
-		y = 5;
-	}else{
-		img = [UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/graph/popdown"];
-		y = 14;
-	}
-	
-	background = [[UIImageView alloc] initWithImage:img];
-	[self addSubview:background];
-	
-	label = [[UILabel alloc] initWithFrame:CGRectMake(3, y, INDICATOR_WIDTH - 6, 20)];
-	label.text = str;
-	label.font = [UIFont boldSystemFontOfSize:14.0];
-
-    label.minimumFontSize = 10.0;
-	label.adjustsFontSizeToFitWidth = YES;
-	label.textAlignment = NSTextAlignmentCenter;
-	label.backgroundColor = [UIColor clearColor];
-
-	[self addSubview:label];
-	
+//	if(![super initWithFrame:frame]) return nil;
+    
+    self = [super initWithFrame:frame];
+    if (self) {
+        int y = 0;
+        UIImage *img;
+        
+        if(up){
+            img = [UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/graph/popup"];
+            y = 5;
+        }else{
+            img = [UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/graph/popdown"];
+            y = 14;
+        }
+        
+        background = [[UIImageView alloc] initWithImage:img];
+        [self addSubview:background];
+        
+        label = [[UILabel alloc] initWithFrame:CGRectMake(3, y, INDICATOR_WIDTH - 6, 20)];
+        label.text = str;
+        label.font = [UIFont boldSystemFontOfSize:14.0];
+        
+        label.minimumFontSize = 10.0;
+        label.adjustsFontSizeToFitWidth = YES;
+        label.textAlignment = NSTextAlignmentCenter;
+        label.backgroundColor = [UIColor clearColor];
+        
+        [self addSubview:label];
+    }
+    	
 	return self;
 }
+
 - (void)dealloc {
 	[background release];
 	[label release];
@@ -371,50 +377,54 @@ static float highValue;
 // PUBLIC
 
 - (id) initWithFrame:(CGRect)frame {
-	if(![super initWithFrame:frame]) return nil;
-	
-	titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-	titleLabel.backgroundColor = [UIColor clearColor];
-	titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
-	titleLabel.textAlignment = NSTextAlignmentCenter;
-    titleLabel.textColor = [UIColor whiteColor];
-	[self addSubview:titleLabel];
-	
-	CGRect r = CGRectInset(frame,60, 8);
-	r.size.height = 20;
-	titleLabel.frame = r;
-	
-	
-	scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, stageTopMargin, self.frame.size.width, frame.size.height - 30)];
-	scrollView.delegate = self;
-	scrollView.showsHorizontalScrollIndicator = YES;
-	scrollView.backgroundColor = [UIColor clearColor];
-	[self addSubview:scrollView];
-	
-    UIImage *mask = [[UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/graph/mask"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
-	border = [[UIImageView alloc] initWithImage:mask];
-    border.frame = self.frame;
     
-	[self addSubview:border];
-	
-	plotView = [[TKGraphViewPlotView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
-	plotView.backgroundColor = [UIColor clearColor];
-	[scrollView addSubview:plotView];
-	
-	
-	
-	goalLine = [[UIView alloc] initWithFrame:CGRectZero];
-	goalLine.backgroundColor = [UIColor redColor];
-	
-	goalLabel = [[TKGraphViewGoalLabel alloc] init];
-	goalLabel.title = @"GOAL";
-	
-	
-	touchIndicatorEnabled = YES;
-	goalShown = NO;
+	if(![super initWithFrame:frame]) return nil;
+    
+    self = [super initWithFrame:frame];
+    if (self) {
+        titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        titleLabel.backgroundColor = [UIColor clearColor];
+        titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
+        titleLabel.textAlignment = NSTextAlignmentCenter;
+        titleLabel.textColor = [UIColor whiteColor];
+        [self addSubview:titleLabel];
+        
+        CGRect r = CGRectInset(frame,60, 8);
+        r.size.height = 20;
+        titleLabel.frame = r;
+        
+        
+        scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, stageTopMargin, self.frame.size.width, frame.size.height - 30)];
+        scrollView.delegate = self;
+        scrollView.showsHorizontalScrollIndicator = YES;
+        scrollView.backgroundColor = [UIColor clearColor];
+        [self addSubview:scrollView];
+        
+        UIImage *mask = [[UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/graph/mask"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
+        border = [[UIImageView alloc] initWithImage:mask];
+        border.frame = self.frame;
+        
+        [self addSubview:border];
+        
+        plotView = [[TKGraphViewPlotView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+        plotView.backgroundColor = [UIColor clearColor];
+        [scrollView addSubview:plotView];
+        
+        
+        
+        goalLine = [[UIView alloc] initWithFrame:CGRectZero];
+        goalLine.backgroundColor = [UIColor redColor];
+        
+        goalLabel = [[TKGraphViewGoalLabel alloc] init];
+        goalLabel.title = @"GOAL";
+        
+        
+        touchIndicatorEnabled = YES;
+        goalShown = NO;
 		
-    // CONTROLS BACKGROUND COLOR OF THE GRAPH //
-    self.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"TapkuLibrary.bundle/Images/graph/graph_bg"]];
+        // CONTROLS BACKGROUND COLOR OF THE GRAPH //
+        self.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"TapkuLibrary.bundle/Images/graph/graph_bg"]];
+    }
     
     return self;
 }

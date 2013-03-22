@@ -115,7 +115,7 @@
 		3BF9A834159791EA002A7F9E /* TKShapeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BF9A832159791EA002A7F9E /* TKShapeView.m */; };
 		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 		BFA13E9E16CC03D500873F79 /* GraphController.h in Headers */ = {isa = PBXBuildFile; fileRef = BFA13E9616CC03D500873F79 /* GraphController.h */; };
-		BFA13E9F16CC03D500873F79 /* GraphController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFA13E9716CC03D500873F79 /* GraphController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		BFA13E9F16CC03D500873F79 /* GraphController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFA13E9716CC03D500873F79 /* GraphController.m */; };
 		BFA13EA016CC03D500873F79 /* TKGraphController.h in Headers */ = {isa = PBXBuildFile; fileRef = BFA13E9816CC03D500873F79 /* TKGraphController.h */; };
 		BFA13EA116CC03D500873F79 /* TKGraphController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFA13E9916CC03D500873F79 /* TKGraphController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		BFA13EA216CC03D500873F79 /* TKGraphView.h in Headers */ = {isa = PBXBuildFile; fileRef = BFA13E9A16CC03D500873F79 /* TKGraphView.h */; };
