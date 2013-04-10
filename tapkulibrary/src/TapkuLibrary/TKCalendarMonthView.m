@@ -862,7 +862,9 @@
 	return [currentTile monthDate];
 }
 - (void) selectDate:(NSDate*)date{
-	TKDateInformation info = [date dateInformationWithTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+//	TKDateInformation info = [date dateInformationWithTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+    TKDateInformation info = [date dateInformationWithTimeZone:[NSTimeZone systemTimeZone]];
+
 
 	NSDate *month = [date firstOfMonth];
 	
