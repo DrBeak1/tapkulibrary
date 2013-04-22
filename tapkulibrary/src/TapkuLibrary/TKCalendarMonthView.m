@@ -660,7 +660,6 @@
 	[self addSubview:self.shadow];
 	self.shadow.frame = CGRectMake(0, self.frame.size.height-self.shadow.frame.size.height+21, self.bounds.size.width, self.shadow.frame.size.height);
 	
-	
 	NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
 	[dateFormat setDateFormat:@"eee"];
 	[dateFormat setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
