@@ -40,8 +40,6 @@ forTime = _forTime;
 
 -(id)initWithID:(int)pkv value:(NSNumber*)number andDate:(NSDate *)date forTime:(BOOL)isForTime 
 {
-    
-    
     if(!(self=[super init])) return nil;
     
     self.pk = pkv;
@@ -86,17 +84,32 @@ forTime = _forTime;
 
 @end
 
+/* ##################################### */
+/* ########## GraphController ########## */
+/* ##################################### */
+@interface GraphController ()
+<UIActionSheetDelegate>
+{
+    GraphDataSetType dataSetType;
+    MaxRecordSortOption *sortOption;
+}
+
+@property(nonatomic, strong)UIButton *sortOptionsButton;
+
+@end
+
 @implementation GraphController
 @synthesize originalData = _originalData,
 highestNumber = _highestNumber,
 lowestNumber = _lowestNumber,
 earliestDate = _earliestDate,
 latestDate = _latestDate,
-wodNameString = _wodNameString,
+recordTitle = _recordTitle,
 isForTime = _isForTime,
 recordIndex = _recordIndex,
 data = _data,
 indicator = _indicator;
+@synthesize sortOptionsButton = _sortOptionsButton;
 
 -(NSMutableArray *)data
 {
@@ -110,13 +123,13 @@ indicator = _indicator;
     return _originalData;
 }
 
--(id)initWithDataSet:(NSMutableArray *)dataSet
+-(id)initWithDataSet:(NSMutableArray *)dataSet forDataType:(GraphDataSetType)dst
 {
     self = [super init];
     if (self) {
         
         self.originalData = dataSet;
-        
+        dataSetType = dst;
     }
     
     return self;
@@ -127,12 +140,299 @@ indicator = _indicator;
 	[super viewDidLoad];
     
 	self.lowestNumber = 1000000000;
-	self.graph.title.text = self.wodNameString;
+	self.graph.title.text = self.recordTitle;
 	[self.graph setPointDistance:50];
+    sortOption = MaxRecordSortOptionTime;
+    
+    self.sortOptionsButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
+    self.sortOptionsButton.frame = CGRectMake(self.view.frame.size.width - 30, 15, 18, 19);
+    [self.sortOptionsButton addTarget:self action:@selector(showSortOptions) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.sortOptionsButton];
 		
-    [self setupOriginaldata];
-	
-	if (!self.isForTime) {
+    [self setupOriginaldataWithSetType:dataSetType];
+		
+    self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+}
+
+-(void)setupOriginaldataWithSetType:(GraphDataSetType)type
+{
+    // * Sort by date
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:TRUE];
+    NSArray *descriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
+    [self.originalData sortUsingDescriptors:descriptors];
+    
+    NSDateFormatter *updatedStringFormatter = [[NSDateFormatter alloc] init];
+    [updatedStringFormatter setDateFormat:@"yyyy-MM-dd"];
+    
+    NSDateFormatter *stringFormat = [[NSDateFormatter alloc] init];
+    [stringFormat setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+    [stringFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss +0000"];
+    
+    switch (type) {
+        case GraphDataSetTypeCompletedWOD: {
+            // * Completed WOD
+            
+            self.sortOptionsButton.hidden = YES;
+            
+            int a = 0;
+            for (a = 0; a < [self.originalData count]; a++) {
+                NSDictionary *dic = [[NSDictionary alloc] initWithDictionary:[self.originalData objectAtIndex:a]];
+                NSString *name = [dic objectForKey:@"title"];
+                if ([name isEqualToString:self.recordTitle]) {
+                    
+                    NSString *wodDateString = [dic objectForKey:@"date"];
+                    
+                    NSDate *date = [updatedStringFormatter dateFromString:wodDateString];
+                    if (!date) {
+                        date  = [stringFormat dateFromString:wodDateString];
+                    }
+                    
+                    if ([[dic objectForKey:@"scoreType"] isEqualToString:@"For Time:"]) {
+                        self.isForTime = YES;
+                        NSString *timeString = [dic objectForKey:@"score"];
+                        if ([timeString isEqualToString:@""]) {
+                            timeString = @"0:00";
+                        }
+                        NSArray *time = [timeString componentsSeparatedByString:@":"];
+                        int minutes = [[time objectAtIndex:0] intValue];
+                        int seconds = [[time objectAtIndex:1] intValue];
+                        
+                        NSInteger rawTime = (minutes * 60) + seconds;
+                        
+                        if (rawTime < self.lowestNumber) {
+                            self.lowestNumber = rawTime;
+                            self.recordIndex = a;
+                        }
+                        GraphPoint *gp = [[GraphPoint alloc] initWithID:a value:[NSNumber numberWithInteger:rawTime] andDate:date forTime:self.isForTime];
+                        [self.data addObject:gp];
+                    } else {
+                        self.isForTime = NO;
+                        NSInteger score;
+                        if ([[dic objectForKey:@"score"] isEqualToString:@""]) {
+                            score = 0;
+                        } else {
+                            score = [[dic objectForKey:@"score"] intValue];
+                        }
+                        
+                        if (score > self.highestNumber) {
+                            self.highestNumber = score;
+                            self.recordIndex = a;
+                        }
+                        
+                        GraphPoint *gp = [[GraphPoint alloc] initWithID:a value:[NSNumber numberWithInteger:score] andDate:date forTime:self.isForTime];
+                        [self.data addObject:gp];
+                    }
+                }
+            }
+
+            break;
+        }
+        case GraphDataSetTypeMaxRepsRecord: {
+            // max reps record
+            
+            self.sortOptionsButton.hidden = NO;
+
+            int b = 0;
+            for (b = 0; b < [self.originalData count]; b++) {
+                NSDictionary *dic = [[NSDictionary alloc] initWithDictionary:[self.originalData objectAtIndex:b]];
+                NSString *recordDateString = [dic objectForKey:@"date"];
+                
+                NSDate *date = [updatedStringFormatter dateFromString:recordDateString];
+                if (!date) {
+                    date  = [stringFormat dateFromString:recordDateString];
+                }
+                
+                if (sortOption==MaxRecordSortOptionTime) {
+                    self.isForTime = YES;
+                    NSString *timeString = @"";
+                    if ([dic objectForKey:@"weight"] &&
+                        ![[dic objectForKey:@"weight"] isKindOfClass:[NSNull class]]) {
+                        timeString = [dic objectForKey:@"weight"];
+                    }
+                    if ([timeString isEqualToString:@""]) {
+                        timeString = @"0:00";
+                    }
+                    NSArray *time = [timeString componentsSeparatedByString:@":"];
+                    int minutes = [[time objectAtIndex:0] intValue];
+                    int seconds = [[time objectAtIndex:1] intValue];
+                    
+                    NSInteger rawTime = (minutes * 60) + seconds;
+                    
+                    if (rawTime < self.lowestNumber) {
+                        self.lowestNumber = rawTime;
+                        self.recordIndex = b;
+                    }
+                    
+                    GraphPoint *gp = [[GraphPoint alloc] initWithID:b value:[NSNumber numberWithInteger:rawTime] andDate:date forTime:self.isForTime];
+                    [self.data addObject:gp];
+                } else {
+                    self.isForTime = NO;
+                    NSInteger score = 0;
+                    if ([dic objectForKey:@"reps"] &&
+                        ![[dic objectForKey:@"reps"] isKindOfClass:[NSNull class]]) {
+                        score = [[dic objectForKey:@"reps"] integerValue];
+                    }
+                    
+                    if (score > self.highestNumber) {
+                        self.highestNumber = score;
+                        self.recordIndex = b;
+                    }
+                    
+                    GraphPoint *gp = [[GraphPoint alloc] initWithID:b value:[NSNumber numberWithInteger:score] andDate:date forTime:self.isForTime];
+                    [self.data addObject:gp];
+                }
+
+            }
+            
+            break;
+        }
+        case GraphDataSetTypeMaxDistanceRecord: {
+            // distance for time record
+            
+            self.sortOptionsButton.hidden = YES;
+            
+            int c = 0;
+            for (c = 0; c < [self.originalData count]; c++) {
+                NSDictionary *dic = [[NSDictionary alloc] initWithDictionary:[self.originalData objectAtIndex:c]];
+                NSString *recordDateString = [dic objectForKey:@"date"];
+                
+                NSDate *date = [updatedStringFormatter dateFromString:recordDateString];
+                if (!date) {
+                    date  = [stringFormat dateFromString:recordDateString];
+                }
+                self.isForTime = YES;
+                NSString *timeString = @"";
+                if ([dic objectForKey:@"weight"] &&
+                    ![[dic objectForKey:@"weight"] isKindOfClass:[NSNull class]]) {
+                    timeString = [dic objectForKey:@"weight"];
+                }
+                if ([timeString isEqualToString:@""]) {
+                    timeString = @"0:00";
+                }
+                NSArray *time = [timeString componentsSeparatedByString:@":"];
+                int minutes = [[time objectAtIndex:0] intValue];
+                int seconds = [[time objectAtIndex:1] intValue];
+                
+                NSInteger rawTime = (minutes * 60) + seconds;
+                
+                if (rawTime < self.lowestNumber) {
+                    self.lowestNumber = rawTime;
+                    self.recordIndex = c;
+                }
+                
+                GraphPoint *gp = [[GraphPoint alloc] initWithID:c value:[NSNumber numberWithInteger:rawTime] andDate:date forTime:self.isForTime];
+                [self.data addObject:gp];
+                
+            }
+            
+            break;
+        }
+        case GraphDataSetTypeMaxHeightRecord: {
+            // highest height record
+            
+            self.sortOptionsButton.hidden = YES;
+            
+            int d = 0;
+            for (d = 0; d < [self.originalData count]; d++) {
+                NSDictionary *dic = [[NSDictionary alloc] initWithDictionary:[self.originalData objectAtIndex:d]];
+                NSString *recordDateString = [dic objectForKey:@"date"];
+                
+                NSDate *date = [updatedStringFormatter dateFromString:recordDateString];
+                if (!date) {
+                    date  = [stringFormat dateFromString:recordDateString];
+                }
+                
+                self.isForTime = NO;
+                NSInteger score = 0;
+                if ([dic objectForKey:@"weight"] &&
+                    ![[dic objectForKey:@"weight"] isKindOfClass:[NSNull class]]) {
+                    score = [[dic objectForKey:@"weight"] floatValue];
+                }
+                
+                
+                if (score > self.highestNumber) {
+                    self.highestNumber = score;
+                    self.recordIndex = d;
+                }
+                
+                GraphPoint *gp = [[GraphPoint alloc] initWithID:d value:[NSNumber numberWithInteger:score] andDate:date forTime:self.isForTime];
+                [self.data addObject:gp];
+                
+            }
+            
+            break;
+        }
+        case GraphDataSetTypeMaxWeightRecord: {
+            // * heaviest weight record
+            self.sortOptionsButton.hidden = YES;
+
+            int e = 0;
+            for (e = 0; e < [self.originalData count]; e++) {
+                NSDictionary *dic = [[NSDictionary alloc] initWithDictionary:[self.originalData objectAtIndex:e]];
+                NSString *recordDateString = [dic objectForKey:@"date"];
+                
+                NSDate *date = [updatedStringFormatter dateFromString:recordDateString];
+                if (!date) {
+                    date  = [stringFormat dateFromString:recordDateString];
+                }
+                
+                self.isForTime = NO;
+                NSInteger score = 0;
+                if ([dic objectForKey:@"weight"] &&
+                    ![[dic objectForKey:@"weight"] isKindOfClass:[NSNull class]]) {
+                    score = [[dic objectForKey:@"weight"] floatValue];
+                }
+                
+                
+                if (score > self.highestNumber) {
+                    self.highestNumber = score;
+                    self.recordIndex = e;
+                }
+                
+                GraphPoint *gp = [[GraphPoint alloc] initWithID:e value:[NSNumber numberWithInteger:score] andDate:date forTime:self.isForTime];
+                [self.data addObject:gp];
+
+            }
+            
+            break;
+        }
+        default:{
+            // * default (follows weight protocol)
+            self.sortOptionsButton.hidden = YES;
+            
+            int e = 0;
+            for (e = 0; e < [self.originalData count]; e++) {
+                NSDictionary *dic = [[NSDictionary alloc] initWithDictionary:[self.originalData objectAtIndex:e]];
+                NSString *recordDateString = [dic objectForKey:@"date"];
+                
+                NSDate *date = [updatedStringFormatter dateFromString:recordDateString];
+                if (!date) {
+                    date  = [stringFormat dateFromString:recordDateString];
+                }
+                
+                self.isForTime = NO;
+                NSInteger score = 0;
+                if ([dic objectForKey:@"weight"] &&
+                    ![[dic objectForKey:@"weight"] isKindOfClass:[NSNull class]]) {
+                    score = [[dic objectForKey:@"weight"] floatValue];
+                }
+                
+                
+                if (score > self.highestNumber) {
+                    self.highestNumber = score;
+                    self.recordIndex = e;
+                }
+                
+                GraphPoint *gp = [[GraphPoint alloc] initWithID:e value:[NSNumber numberWithInteger:score] andDate:date forTime:self.isForTime];
+                [self.data addObject:gp];
+                
+            }
+            
+            break;
+        }
+    }
+    
+    if (!self.isForTime) {
         [self.graph setGraphWithDataPoints:self.data];
         self.graph.goalValue = [NSNumber numberWithInteger:self.highestNumber];
         self.graph.goalShown = YES;
@@ -147,84 +447,47 @@ indicator = _indicator;
         [self.graph showIndicatorForPoint:self.recordIndex];
         //  [self.graph scrollToPoint:self.recordIndex animated:YES];
     }
-
-	
-    self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-
-	
+    
+    
 }
 
--(void)setupOriginaldata
+-(void)showSortOptions
 {
-    
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:TRUE];
-    NSArray *descriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
-    [self.originalData sortUsingDescriptors:descriptors];
-    
-    NSDateFormatter *updatedStringFormatter = [[NSDateFormatter alloc] init];
-    [updatedStringFormatter setDateFormat:@"yyyy-MM-dd"];
-    
-    NSDateFormatter *stringFormat = [[NSDateFormatter alloc] init];
-    [stringFormat setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
-    [stringFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss +0000"];
-
-    int a = 0;
-    for (a = 0; a < [self.originalData count]; a++) {
-        NSDictionary *dic = [[NSDictionary alloc] initWithDictionary:[self.originalData objectAtIndex:a]];
-        NSString *name = [dic objectForKey:@"title"];
-        if ([name isEqualToString:self.wodNameString]) {            
-            
-            NSString *wodDateString = [dic objectForKey:@"date"];
-
-            NSDate *date = [updatedStringFormatter dateFromString:wodDateString];
-            if (!date) {
-                date  = [stringFormat dateFromString:wodDateString];
-            }
-                        
-            if ([[dic objectForKey:@"scoreType"] isEqualToString:@"For Time:"]) {
-                self.isForTime = YES;
-                NSString *timeString = [dic objectForKey:@"score"];
-                if ([timeString isEqualToString:@""]) {
-                    timeString = @"0:00";
-                }
-                NSArray *time = [timeString componentsSeparatedByString:@":"];
-                int minutes = [[time objectAtIndex:0] intValue];
-                int seconds = [[time objectAtIndex:1] intValue];
-                
-                NSInteger rawTime = (minutes * 60) + seconds; 
-            
-                if (rawTime < self.lowestNumber) {
-                    self.lowestNumber = rawTime;
-                    self.recordIndex = a;
-                }
-                GraphPoint *gp = [[GraphPoint alloc] initWithID:a value:[NSNumber numberWithInteger:rawTime] andDate:date forTime:self.isForTime];
-                [self.data addObject:gp];
-            } else {
-                self.isForTime = NO;
-                NSInteger score;
-                if ([[dic objectForKey:@"score"] isEqualToString:@""]) {
-                    score = 0;
-                } else {
-                   score = [[dic objectForKey:@"score"] intValue]; 
-                }
-
-                if (score > self.highestNumber) {
-                    self.highestNumber = score;
-                    self.recordIndex = a;
-                }
-                
-                GraphPoint *gp = [[GraphPoint alloc] initWithID:a value:[NSNumber numberWithInteger:score] andDate:date forTime:self.isForTime];
-                [self.data addObject:gp];
-            }
-        }
-    }
+    UIActionSheet *sortOptionsSheet = [[UIActionSheet alloc] initWithTitle:@"Graph Options"
+                                                                  delegate:self
+                                                         cancelButtonTitle:@"Cancel"
+                                                    destructiveButtonTitle:nil otherButtonTitles:@"Graph By Time", @"Graph By Reps", nil];
+    [sortOptionsSheet showFromRect:self.sortOptionsButton.frame inView:self.view animated:YES];
     
 }
 
+/* #################################################### */
+/* ########## UIActionSheet Delegate Methods ########## */
+/* #################################################### */
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex) {
+        case 0:
+            // * Sort By Time
+            [self.data removeAllObjects];
+            sortOption = MaxRecordSortOptionTime;
+            [self setupOriginaldataWithSetType:dataSetType];
+            break;
+        case 1:
+            // * Sort By Reps
+            [self.data removeAllObjects];
+            sortOption = MaxRecordSortOptionOtherVariable;
+            [self setupOriginaldataWithSetType:dataSetType];
+            break;
+        default:
+            // * Cancel
+
+            break;
+    }
+}
 
 
-
-- (void)didReceiveMemoryWarning 
+- (void)didReceiveMemoryWarning
 {
 	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];

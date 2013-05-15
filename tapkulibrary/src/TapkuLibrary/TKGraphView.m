@@ -512,7 +512,7 @@ static float highValue;
         i = 0;
     }
 	
-    NSLog(@"i = %i", i);
+    // NSLog(@"i = %i", i);
 	NSObject <TKGraphViewPoint> *d;
     
     d = [data objectAtIndex:i];
