@@ -35,21 +35,34 @@
 #import "TKGraphView.h"
 @class GraphPoint;
 
+typedef enum {
+    GraphDataSetTypeCompletedWOD,
+    GraphDataSetTypeMaxWeightRecord,
+    GraphDataSetTypeMaxDistanceRecord,
+    GraphDataSetTypeMaxHeightRecord,
+    GraphDataSetTypeMaxRepsRecord
+} GraphDataSetType;
+
+typedef enum {
+    MaxRecordSortOptionTime,
+    MaxRecordSortOptionOtherVariable
+} MaxRecordSortOption;
+
 @interface GraphController : TKGraphController 
 
 @property(nonatomic, retain)NSMutableArray *data;
 @property(nonatomic, retain)UIActivityIndicatorView *indicator;
 @property(assign)BOOL isForTime;
 @property(nonatomic, retain)NSMutableArray *originalData;
-@property(nonatomic, retain)NSString *wodNameString;
+@property(nonatomic, retain)NSString *recordTitle;
 @property(assign)NSInteger recordIndex;
 @property(assign)NSInteger highestNumber;
 @property(assign)NSInteger lowestNumber;
 @property(assign)NSTimeInterval earliestDate;
 @property(assign)NSTimeInterval latestDate;
 
--(void)setupOriginaldata;
--(id)initWithDataSet:(NSMutableArray *)dataSet;
+-(void)setupOriginaldataWithSetType:(GraphDataSetType)type;
+-(id)initWithDataSet:(NSMutableArray *)dataSet forDataType:(GraphDataSetType)dataSetType;
 
 
 @end

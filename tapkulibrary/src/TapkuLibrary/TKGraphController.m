@@ -70,23 +70,21 @@
 	
     self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     
+    // * Setup Close Button
 	close = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	close.frame = CGRectMake(-10, 0, 65, 45);
-	
-	
-	
-	[close setImage:[UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/graph/close"] forState:UIControlStateNormal];
+    [close setImage:[UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/graph/close"] forState:UIControlStateNormal];
 	[close setImage:[UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/graph/close_touch"] forState:UIControlStateHighlighted];
 	[close addTarget:self action:@selector(close) forControlEvents:UIControlEventTouchUpInside];
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-    //IPAD
+        // * Hide close button if device is iPad
         close.hidden = YES;
     } else {
-    //IPHONE
+        // * Show close button if device is iPhone/iPod
         close.hidden = NO;
     }
+    [self.view addSubview:close];
 
-	[self.view addSubview:close];
     
 }
 
