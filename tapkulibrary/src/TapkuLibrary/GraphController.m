@@ -28,9 +28,12 @@
  OTHER DEALINGS IN THE SOFTWARE.
  
  */
+
+/* ################################ */
+/* ########## GraphPoint ########## */
+/* ################################ */
+
 #import "GraphController.h"
-
-
 
 @implementation GraphPoint
 @synthesize pk = _pk,
@@ -73,13 +76,37 @@ forTime = _forTime;
     if (!self.forTime) {
         return [NSString stringWithFormat:@"%d",[self.value intValue]];
     } else {
-        NSInteger theValue = [self.value integerValue];
-        NSInteger sec = fmod(theValue, 60);
-        NSInteger min = fmod(theValue / 60, 60);
-        NSString *timeString = [NSString stringWithFormat:@"%i:%02d", min, sec];
-        return timeString;
+        
+        NSInteger rawSeconds = [self.value integerValue];
+        
+        NSInteger minutes = 0;
+        NSInteger seconds = 0;
+        NSInteger milliseconds = 0;
+
+        NSString *timeAsString = [NSString stringWithFormat:@"%@", self.value];
+        NSRange range = [timeAsString rangeOfString : @"." options:(NSCaseInsensitiveSearch)];
+        if (range.location != NSNotFound) {
+            NSArray *time = [timeAsString componentsSeparatedByString:@"."];
+            NSInteger rawSecondsMinusFloatingValue = [[time objectAtIndex:0] integerValue];
+            minutes = rawSecondsMinusFloatingValue / 60;
+            seconds = fmod(rawSecondsMinusFloatingValue, 60);
+            milliseconds = [[time objectAtIndex:1] integerValue];
+        } else {
+            minutes = rawSeconds / 60;
+            seconds = fmod(rawSeconds, 60);
+        }
+
+        NSString *displayString = @"";
+        if (milliseconds>0) {
+            displayString = [NSString stringWithFormat:@"%i:%02d.%i", minutes, seconds, milliseconds];
+        } else {
+            displayString = [NSString stringWithFormat:@"%i:%02d", minutes, seconds];
+        }
+
+        return displayString;
     }
 }
+
 
 
 @end
@@ -127,7 +154,9 @@ indicator = _indicator;
 {
     self = [super init];
     if (self) {
-        
+        if (self.originalData) {
+            self.originalData = nil;
+        }
         self.originalData = dataSet;
         dataSetType = dst;
     }
@@ -167,7 +196,7 @@ indicator = _indicator;
     NSDateFormatter *stringFormat = [[NSDateFormatter alloc] init];
     [stringFormat setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
     [stringFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss +0000"];
-    
+
     switch (type) {
         case GraphDataSetTypeCompletedWOD: {
             // * Completed WOD
@@ -194,16 +223,17 @@ indicator = _indicator;
                             timeString = @"0:00";
                         }
                         NSArray *time = [timeString componentsSeparatedByString:@":"];
-                        int minutes = [[time objectAtIndex:0] intValue];
-                        int seconds = [[time objectAtIndex:1] intValue];
                         
-                        NSInteger rawTime = (minutes * 60) + seconds;
+                        float minutes = [[time objectAtIndex:0] floatValue];
+                        float seconds = [[time objectAtIndex:1] floatValue];
+                                                
+                        float rawTime = (minutes * 60) + seconds;
                         
                         if (rawTime < self.lowestNumber) {
                             self.lowestNumber = rawTime;
                             self.recordIndex = a;
                         }
-                        GraphPoint *gp = [[GraphPoint alloc] initWithID:a value:[NSNumber numberWithInteger:rawTime] andDate:date forTime:self.isForTime];
+                        GraphPoint *gp = [[GraphPoint alloc] initWithID:a value:[NSNumber numberWithFloat:rawTime] andDate:date forTime:self.isForTime];
                         [self.data addObject:gp];
                     } else {
                         self.isForTime = NO;
@@ -253,17 +283,17 @@ indicator = _indicator;
                         timeString = @"0:00";
                     }
                     NSArray *time = [timeString componentsSeparatedByString:@":"];
-                    int minutes = [[time objectAtIndex:0] intValue];
-                    int seconds = [[time objectAtIndex:1] intValue];
                     
-                    NSInteger rawTime = (minutes * 60) + seconds;
+                    float minutes = [[time objectAtIndex:0] floatValue];
+                    float seconds = [[time objectAtIndex:1] floatValue];
+
+                    float rawTime = (minutes * 60) + seconds;
                     
                     if (rawTime < self.lowestNumber) {
                         self.lowestNumber = rawTime;
                         self.recordIndex = b;
                     }
-                    
-                    GraphPoint *gp = [[GraphPoint alloc] initWithID:b value:[NSNumber numberWithInteger:rawTime] andDate:date forTime:self.isForTime];
+                    GraphPoint *gp = [[GraphPoint alloc] initWithID:b value:[NSNumber numberWithFloat:rawTime] andDate:date forTime:self.isForTime];
                     [self.data addObject:gp];
                 } else {
                     self.isForTime = NO;
@@ -310,17 +340,17 @@ indicator = _indicator;
                     timeString = @"0:00";
                 }
                 NSArray *time = [timeString componentsSeparatedByString:@":"];
-                int minutes = [[time objectAtIndex:0] intValue];
-                int seconds = [[time objectAtIndex:1] intValue];
                 
-                NSInteger rawTime = (minutes * 60) + seconds;
+                float minutes = [[time objectAtIndex:0] floatValue];
+                float seconds = [[time objectAtIndex:1] floatValue];
                 
+                float rawTime = (minutes * 60) + seconds;
+                                
                 if (rawTime < self.lowestNumber) {
                     self.lowestNumber = rawTime;
                     self.recordIndex = c;
                 }
-                
-                GraphPoint *gp = [[GraphPoint alloc] initWithID:c value:[NSNumber numberWithInteger:rawTime] andDate:date forTime:self.isForTime];
+                GraphPoint *gp = [[GraphPoint alloc] initWithID:c value:[NSNumber numberWithFloat:rawTime] andDate:date forTime:self.isForTime];
                 [self.data addObject:gp];
                 
             }
