@@ -154,6 +154,7 @@ indicator = _indicator;
     self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 }
 
+#warning GraphController.m : setupOriginalDataWithSetType - requires rewrite to support new NSDecimalNumber of measurementAValue
 -(void)setupOriginaldataWithSetType:(GraphDataSetType)type
 {
     // * Sort by date
@@ -245,9 +246,9 @@ indicator = _indicator;
                 if (sortOption==MaxRecordSortOptionTime) {
                     self.isForTime = YES;
                     NSString *timeString = @"";
-                    if ([dic objectForKey:@"weight"] &&
-                        ![[dic objectForKey:@"weight"] isKindOfClass:[NSNull class]]) {
-                        timeString = [dic objectForKey:@"weight"];
+                    if ([dic objectForKey:@"measurementB"] &&
+                        ![[dic objectForKey:@"measurementB"] isKindOfClass:[NSNull class]]) {
+                        timeString = [dic objectForKey:@"measurementB"];
                     }
                     if ([timeString isEqualToString:@""]) {
                         timeString = @"0:00";
@@ -268,9 +269,9 @@ indicator = _indicator;
                 } else {
                     self.isForTime = NO;
                     NSInteger score = 0;
-                    if ([dic objectForKey:@"reps"] &&
-                        ![[dic objectForKey:@"reps"] isKindOfClass:[NSNull class]]) {
-                        score = [[dic objectForKey:@"reps"] integerValue];
+                    if ([dic objectForKey:@"measurementAValue"] &&
+                        ![[dic objectForKey:@"measurementAValue"] isKindOfClass:[NSNull class]]) {
+                        score = [[dic objectForKey:@"measurementAValue"] integerValue];
                     }
                     
                     if (score > self.highestNumber) {
@@ -302,9 +303,9 @@ indicator = _indicator;
                 }
                 self.isForTime = YES;
                 NSString *timeString = @"";
-                if ([dic objectForKey:@"weight"] &&
-                    ![[dic objectForKey:@"weight"] isKindOfClass:[NSNull class]]) {
-                    timeString = [dic objectForKey:@"weight"];
+                if ([dic objectForKey:@"measurementB"] &&
+                    ![[dic objectForKey:@"measurementB"] isKindOfClass:[NSNull class]]) {
+                    timeString = [dic objectForKey:@"measurementB"];
                 }
                 if ([timeString isEqualToString:@""]) {
                     timeString = @"0:00";
@@ -344,9 +345,9 @@ indicator = _indicator;
                 
                 self.isForTime = NO;
                 NSInteger score = 0;
-                if ([dic objectForKey:@"weight"] &&
-                    ![[dic objectForKey:@"weight"] isKindOfClass:[NSNull class]]) {
-                    score = [[dic objectForKey:@"weight"] floatValue];
+                if ([dic objectForKey:@"measurementAValue"] &&
+                    ![[dic objectForKey:@"measumrentAValue"] isKindOfClass:[NSNull class]]) {
+                    score = [[dic objectForKey:@"measurementAValue"] integerValue];
                 }
                 
                 
@@ -378,9 +379,9 @@ indicator = _indicator;
                 
                 self.isForTime = NO;
                 NSInteger score = 0;
-                if ([dic objectForKey:@"weight"] &&
-                    ![[dic objectForKey:@"weight"] isKindOfClass:[NSNull class]]) {
-                    score = [[dic objectForKey:@"weight"] floatValue];
+                if ([dic objectForKey:@"measurementAValue"] &&
+                    ![[dic objectForKey:@"measurementAValue"] isKindOfClass:[NSNull class]]) {
+                    score = [[dic objectForKey:@"measurementAValue"] integerValue];
                 }
                 
                 
@@ -412,9 +413,9 @@ indicator = _indicator;
                 
                 self.isForTime = NO;
                 NSInteger score = 0;
-                if ([dic objectForKey:@"weight"] &&
-                    ![[dic objectForKey:@"weight"] isKindOfClass:[NSNull class]]) {
-                    score = [[dic objectForKey:@"weight"] floatValue];
+                if ([dic objectForKey:@"measurementAValue"] &&
+                    ![[dic objectForKey:@"measurementAValue"] isKindOfClass:[NSNull class]]) {
+                    score = [[dic objectForKey:@"measurementAValue"] integerValue];
                 }
                 
                 
