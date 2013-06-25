@@ -517,17 +517,26 @@ indicator = _indicator;
 }
 
 
-- (void)didReceiveMemoryWarning
+-(void)didReceiveMemoryWarning
 {
-	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-	
-}
-
-- (void)viewDidUnload 
-{
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
+    // Add code to clean up any of your own resources that are no longer necessary.
+    if ([self isViewLoaded]) {
+        if ([self.view window] == nil)
+        {
+            
+            // Add code to preserve data stored in the views that might be
+            
+            // needed later.
+            
+            
+            // Add code to clean up other strong references to the view in
+            // the view hierarchy.
+            
+            self.view = nil;
+            
+        }
+    }
 }
 
 
