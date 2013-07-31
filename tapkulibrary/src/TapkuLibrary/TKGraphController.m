@@ -103,9 +103,8 @@
 
 - (void) close
 {
-    //[self dismissModalViewControllerAnimated:YES];
-    [self dismissViewControllerAnimated:YES completion:nil];
-
+    [self dismissViewControllerAnimated:YES
+                             completion:nil];
 }
 
 - (void) didReceiveMemoryWarning {
