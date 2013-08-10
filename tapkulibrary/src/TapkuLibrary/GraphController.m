@@ -224,8 +224,14 @@ indicator = _indicator;
                         }
                         NSArray *time = [timeString componentsSeparatedByString:@":"];
                         
-                        float minutes = [[time objectAtIndex:0] floatValue];
-                        float seconds = [[time objectAtIndex:1] floatValue];
+                        float minutes = 0.0;
+                        float seconds = 0.0;
+                        if (time.count>0) {
+                            minutes = [[time objectAtIndex:0] floatValue];
+                            if (time.count>=1) {
+                                seconds = [[time objectAtIndex:1] floatValue];
+                            }
+                        }
                                                 
                         float rawTime = (minutes * 60) + seconds;
                         
@@ -284,8 +290,14 @@ indicator = _indicator;
                     }
                     NSArray *time = [timeString componentsSeparatedByString:@":"];
                     
-                    float minutes = [[time objectAtIndex:0] floatValue];
-                    float seconds = [[time objectAtIndex:1] floatValue];
+                    float minutes = 0.0;
+                    float seconds = 0.0;
+                    if (time.count>0) {
+                        minutes = [[time objectAtIndex:0] floatValue];
+                        if (time.count>=1) {
+                            seconds = [[time objectAtIndex:1] floatValue];
+                        }
+                    }
 
                     float rawTime = (minutes * 60) + seconds;
                     
@@ -340,9 +352,14 @@ indicator = _indicator;
                     timeString = @"0:00";
                 }
                 NSArray *time = [timeString componentsSeparatedByString:@":"];
-                
-                float minutes = [[time objectAtIndex:0] floatValue];
-                float seconds = [[time objectAtIndex:1] floatValue];
+                float minutes = 0.0;
+                float seconds = 0.0;
+                if (time.count>0) {
+                    minutes = [[time objectAtIndex:0] floatValue];
+                    if (time.count>=1) {
+                        seconds = [[time objectAtIndex:1] floatValue];
+                    }
+                }
                 
                 float rawTime = (minutes * 60) + seconds;
                                 
