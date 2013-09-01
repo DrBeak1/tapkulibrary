@@ -4,7 +4,7 @@
 //
 /*
  
- tapku.com || http://github.com/devinross/tapkulibrary
+ tapku || http://github.com/devinross/tapkulibrary
  
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
@@ -37,26 +37,15 @@
 	if(!(self=[super initWithStyle:style reuseIdentifier:reuseIdentifier])) return nil;
 
 	self.textLabel.backgroundColor = [UIColor clearColor];
-	
 	self.switcher = [[UISwitch alloc] initWithFrame:CGRectMake(0,0,94,27)];
-	[self.contentView addSubview:self.switcher];
-		
-
+	self.accessoryView = self.switcher;
+	
     return self;
 }
 - (id) initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier {
 	return [self initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
 }
 
-- (void) layoutSubviews {
-    [super layoutSubviews];
-	CGRect r;
-	
-	r = CGRectInset(self.contentView.bounds, 10,9);
-	r.origin.x += r.size.width-_switcher.bounds.size.width;
-	r.size = _switcher.bounds.size;
-	_switcher.frame = r;
-	
-}
+
 
 @end

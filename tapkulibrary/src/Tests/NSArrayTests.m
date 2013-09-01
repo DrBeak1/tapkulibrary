@@ -4,7 +4,7 @@
 //
 /*
  
- tapku.com || https://github.com/devinross/tapkulibrary
+ tapku || https://github.com/devinross/tapkulibrary
  
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
@@ -36,13 +36,10 @@
 
 
 - (void) testFirstObject{
-	
-	
+		
 	STAssertNil([[NSArray array] firstObject],nil);
-	
-	NSArray *ar = [NSArray arrayWithObjects:@"BOB",nil];
+	NSArray *ar = @[@"BOB"];
 	STAssertEqualObjects([ar firstObject], @"BOB", nil);
-	
 	
 }
 

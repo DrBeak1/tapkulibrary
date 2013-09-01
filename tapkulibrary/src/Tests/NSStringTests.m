@@ -4,7 +4,7 @@
 //
 /*
  
- tapku.com || https://github.com/devinross/tapkulibrary
+ tapku || https://github.com/devinross/tapkulibrary
  
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
@@ -35,7 +35,8 @@
 
 
 - (void) testEmail{
-        
+    
+	STAssertFalse(nil, @"POCKET");
     STAssertTrue([@"bob@sanders.com" isEmail], @"Expected to be a valid email");
     STAssertTrue([@"ao123sda.b2132Ob@sAND123123dsadrs.c" isEmail], @"Expected to be a valid email");
     
@@ -64,6 +65,34 @@
 	STAssertFalse([@"Bob Sanders" hasString:@"SANDERS"], nil);
 	STAssertFalse([@"Bob Sanders" hasString:@"Cooper"], nil);
 	
+}
+
+- (void) testPhoneString{
+		
+	NSString *output = [@"2345678901" formattedPhoneNumberWithLastCharacterRemoved:NO];
+	STAssertEqualObjects(output, @"(234) 567-8901", nil);
+	
+	output = [@"12345678901" formattedPhoneNumberWithLastCharacterRemoved:NO];
+	STAssertEqualObjects(output, @"1 (234) 567-8901", nil);
+	
+	output = [@"123456789012" formattedPhoneNumberWithLastCharacterRemoved:NO];
+	STAssertEqualObjects(output, @"123456789012", nil);
+	
+	output = [@"123" formattedPhoneNumberWithLastCharacterRemoved:NO];
+	STAssertEqualObjects(output, @"1 (23)", nil);
+	
+	output = [@"1234" formattedPhoneNumberWithLastCharacterRemoved:NO];
+	STAssertEqualObjects(output, @"1 (234)", nil);
+	
+	output = [@"12345" formattedPhoneNumberWithLastCharacterRemoved:NO];
+	STAssertEqualObjects(output, @"1 (234) 5", nil);
+	
+	output = [@"12345678" formattedPhoneNumberWithLastCharacterRemoved:NO];
+	STAssertEqualObjects(output, @"1 (234) 567-8", nil);
+	
+	output = [@"529112345678912" formattedPhoneNumberWithLastCharacterRemoved:NO];
+	STAssertEqualObjects(output, @"529112345678912", nil);
+
 }
 
 

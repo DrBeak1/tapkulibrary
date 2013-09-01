@@ -1,9 +1,9 @@
 //
-//  ODCalendarDayViewController.h
+//  TKCalendarDayViewController.h
 //  Created by Devin Ross on 7/28/09.
 /*
  
- tapku.com || http://github.com/devinross/tapkulibrary
+ tapku || http://github.com/devinross/tapkulibrary
  
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
@@ -30,11 +30,13 @@
 
 
 #import <UIKit/UIKit.h>
-#import "TKCalendarDayTimelineView.h"
+#import "TKCalendarDayView.h"
 
+#pragma mark - TKCalendarDayViewController
+/** The `TKCalendarDayViewController` class creates a controller object that manages a calendar day view. */
+@interface TKCalendarDayViewController : UIViewController <TKCalendarDayViewDelegate,TKCalendarDayViewDataSource>
 
-@interface TKCalendarDayViewController : UIViewController <TKCalendarDayTimelineViewDelegate>
-
-@property (nonatomic, strong) TKCalendarDayTimelineView *calendarDayTimelineView;
+/** Returns the day view managed by the controller object. */
+@property (nonatomic,strong) TKCalendarDayView *dayView;
 
 @end

@@ -4,7 +4,7 @@
 //
 /*
  
- tapku.com || http://github.com/devinross/tapkulibrary
+ tapku || http://github.com/devinross/tapkulibrary
  
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
@@ -41,7 +41,7 @@
 - (id) init;
 
 /** The progress displayed. Value between 0.0 and 1.0 */
-@property (assign,nonatomic) float progress; // between 0.0 & 1.0
+@property (nonatomic,assign) float progress; // between 0.0 & 1.0
 
 /** Have the progress circle twirl instead of displaying the current progress. */
 @property (assign,nonatomic,getter=isTwirling) BOOL twirlMode;

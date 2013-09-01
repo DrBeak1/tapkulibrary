@@ -4,7 +4,7 @@
 //
 /*
  
- tapku.com || http://github.com/devinross/tapkulibrary
+ tapku || http://github.com/devinross/tapkulibrary
  
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
@@ -30,11 +30,12 @@
  */
 
 #import <UIKit/UIKit.h>
+@class TKTextView;
 
 /** A table view cell with a text view. */
 @interface TKTextViewCell : UITableViewCell
 
 /** The text view. */
-@property (nonatomic,strong) UITextView *textView;
+@property (nonatomic,strong) TKTextView *textView;
 
 @end

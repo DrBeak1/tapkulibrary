@@ -4,7 +4,7 @@
 //
 /*
  
- tapku.com || http://github.com/devinross/tapkulibrary
+ tapku || http://github.com/devinross/tapkulibrary
  
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
@@ -61,15 +61,14 @@
 	
 	return encodedString;
 	
-	//return [self stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
 }
 
 
 - (NSString *) escapeHTML{
 	NSMutableString *s = [NSMutableString string];
 	
-	int start = 0;
-	int len = [self length];
+	NSInteger start = 0;
+	NSInteger len = [self length];
 	NSCharacterSet *chs = [NSCharacterSet characterSetWithCharactersInString:@"<>&\""];
 	
 	while (start < len) {
@@ -147,7 +146,6 @@
 			[target deleteCharactersInRange:NSMakeRange(0, 1)];
 		}
 	}
-	
 	return s;
 }
 
@@ -156,7 +154,6 @@
 	NSString *html = self;
     NSScanner *thescanner = [NSScanner scannerWithString:html];
     NSString *text = nil;
-	
     while ([thescanner isAtEnd] == NO) {
 		[thescanner scanUpToString:@"<" intoString:NULL];
 		[thescanner scanUpToString:@">" intoString:&text];
@@ -176,9 +173,64 @@
 }
 
 - (BOOL) hasString:(NSString*)substring{
-	
 	return !([self rangeOfString:substring].location == NSNotFound);
+}
+
+
+
+
+
+- (NSString*) formattedPhoneNumberWithLastCharacterRemoved:(BOOL)deleteLastChar{
+	if(self.length<1) return @"";
 	
+	NSError *error = NULL;
+	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"[\\s-\\(\\)]" options:NSRegularExpressionCaseInsensitive error:&error];
+	NSString *digits = [regex stringByReplacingMatchesInString:self options:0 range:NSMakeRange(0, [self length]) withTemplate:@""];
+	
+	
+	// should we delete the last digit?
+	if(deleteLastChar) 
+		digits = [digits substringToIndex:digits.length - 1];
+
+	
+	// 123 456 7890
+	// format the number.. if it's less then 7 digits.. then use this regex.
+	BOOL leadingOne = [digits hasPrefix:@"1"];
+
+	if((digits.length > 11 && leadingOne) || (digits.length > 10 && !leadingOne))
+		return digits;
+	
+	
+	NSRegularExpressionOptions opt = NSRegularExpressionSearch;
+	NSRange range = NSMakeRange(0, digits.length);
+	
+	NSString *occurence, *replace;
+
+	
+	if(digits.length < 5 && leadingOne){
+		occurence = @"(\\d{1})(\\d+)";
+		replace = @"$1 ($2)";
+		
+	}else if(digits.length < 8 && leadingOne){
+		occurence = @"(\\d{1})(\\d{3})(\\d+)";
+		replace = @"$1 ($2) $3";
+		
+	}else if(digits.length<7){
+		occurence = @"(\\d{3})(\\d+)";
+		replace = @"($1) $2";
+		
+	}else if(digits.length > 6 && leadingOne){
+		occurence = @"(\\d{1})(\\d{3})(\\d{3})(\\d+)";
+		replace = @"$1 ($2) $3-$4";
+		
+	}else{
+		occurence = @"(\\d{3})(\\d{3})(\\d+)";
+		replace = @"($1) $2-$3";
+	}
+
+	digits = [digits stringByReplacingOccurrencesOfString:occurence withString:replace options:opt range:range];
+
+	return digits;
 }
 
 

@@ -4,7 +4,7 @@
 //
 /*
  
- tapku.com || http://github.com/devinross/tapkulibrary
+ tapku || http://github.com/devinross/tapkulibrary
  
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
@@ -31,6 +31,7 @@
 
 #import <Foundation/Foundation.h>
 
+/** Additional functionality for `NSObject`.  */
 @interface NSObject (TKCategory)
 
 /** For subclassing, this method should return the item's properties mapped to the data dictionary keys.
@@ -38,10 +39,10 @@
  
 	
 	 @{
-	 @"identifier" : @"id",
-	 @"name" : @"name",
-	 @"createdAt" : @[@"created_at",@"yyyy-MM-dd'T'HH:mm:ss"], // For NSDate
-	 @"updatedAt" : @[@"updated_at",@"yyyy-MM-dd"]
+		@"identifier" : @"id",
+		@"name" : @"name",
+		@"createdAt" : @[@"created_at",@"yyyy-MM-dd'T'HH:mm:ss"], // For NSDate
+		@"updatedAt" : @[@"updated_at",@"yyyy-MM-dd"]
 	 };
  
  
@@ -49,7 +50,17 @@
  */
 + (NSDictionary*) dataKeys;
 
-+ (id) createObject:(NSDictionary*)data;
+
+/** Creates object and imports data from an `NSDictionary` objects using the map provided by the dataKeys dictionary.
+ 
+ @param dictionary The data that will be imported.
+ @returns The newly allocated object.
+
+ */
++ (id) createObject:(NSDictionary*)dictionary;
+
+
+- (id) initWithDataDictionary:(NSDictionary*)dictionary;
 
 
 /** Imports data from an `NSDictionary` objects using the map provided by the dataKeys dictionary.
@@ -57,6 +68,9 @@
  @param dictionary The data that will be imported.
  */
 - (void) importDataWithDictionary:(NSDictionary*)dictionary;
+
+
+- (NSDictionary*) dataDictionary;
 
 
 

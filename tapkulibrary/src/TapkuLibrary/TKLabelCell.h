@@ -4,7 +4,7 @@
 //
 /*
  
- tapku.com || http://github.com/devinross/tapkulibrary
+ tapku || http://github.com/devinross/tapkulibrary
  
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
@@ -43,6 +43,6 @@
 ///----------------------------
 
 /** A `UILabel` that will be a title for the core view. */
-@property (strong,nonatomic) UILabel *label;
+@property (nonatomic,strong) UILabel *label;
 
 @end

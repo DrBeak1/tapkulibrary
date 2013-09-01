@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		200908B616F627F60012DC4F /* launch_iphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 200908B516F627F60012DC4F /* launch_iphone@2x.png */; };
+		2023C7BA17501C32002EE717 /* TapkuLibrary.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2023C7B917501C32002EE717 /* TapkuLibrary.bundle */; };
 		2052AF6C168B83C600A49526 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2052AF6B168B83C600A49526 /* main.m */; };
 		2052AF88168B83E900A49526 /* AlertsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2052AF6F168B83E900A49526 /* AlertsViewController.m */; };
 		2052AF89168B83E900A49526 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2052AF71168B83E900A49526 /* AppDelegate.m */; };
@@ -20,7 +22,7 @@
 		2052AF8F168B83E900A49526 /* ImageCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2052AF7D168B83E900A49526 /* ImageCenterViewController.m */; };
 		2052AF90168B83E900A49526 /* LabelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2052AF7F168B83E900A49526 /* LabelViewController.m */; };
 		2052AF92168B83E900A49526 /* MoreCellsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2052AF83168B83E900A49526 /* MoreCellsViewController.m */; };
-		2052AF93168B83E900A49526 /* NetworkRequestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2052AF85168B83E900A49526 /* NetworkRequestViewController.m */; };
+		2052AF93168B83E900A49526 /* NetworkRequestProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2052AF85168B83E900A49526 /* NetworkRequestProgressViewController.m */; };
 		2052AF94168B83E900A49526 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2052AF87168B83E900A49526 /* RootViewController.m */; };
 		2052AFB4168B840B00A49526 /* Back.png in Resources */ = {isa = PBXBuildFile; fileRef = 2052AF97168B840B00A49526 /* Back.png */; };
 		2052AFB5168B840B00A49526 /* Back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2052AF98168B840B00A49526 /* Back@2x.png */; };
@@ -49,8 +51,9 @@
 		2052AFCC168B840B00A49526 /* icon_74.png in Resources */ = {isa = PBXBuildFile; fileRef = 2052AFB1168B840B00A49526 /* icon_74.png */; };
 		2052AFCD168B840B00A49526 /* launch_iphone-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2052AFB2168B840B00A49526 /* launch_iphone-568h@2x.png */; };
 		2052AFCE168B840B00A49526 /* launch_iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 2052AFB3168B840B00A49526 /* launch_iphone.png */; };
+		20A2A524174C37CF0058571F /* SlideToUnlockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A2A523174C37CF0058571F /* SlideToUnlockViewController.m */; };
+		20CAEA9216F4EE6400D347E1 /* CalendarDayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20CAEA9116F4EE6400D347E1 /* CalendarDayViewController.m */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
-		3B07B33C133AAE06001B1C6F /* TapkuLibrary.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3B07B33B133AAE06001B1C6F /* TapkuLibrary.bundle */; };
 		3B111E5414593FA200C72A38 /* libTapkuLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B111E4F14593F8800C72A38 /* libTapkuLibrary.a */; };
 		3BF88C1B11E547BE00C9FC43 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BF88BEB11E547A000C9FC43 /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
@@ -83,6 +86,8 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* unviersaldemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = unviersaldemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		200908B516F627F60012DC4F /* launch_iphone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launch_iphone@2x.png"; sourceTree = "<group>"; };
+		2023C7B917501C32002EE717 /* TapkuLibrary.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = TapkuLibrary.bundle; path = ../../src/TapkuLibrary.bundle; sourceTree = "<group>"; };
 		2052AF6B168B83C600A49526 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2052AF6E168B83E900A49526 /* AlertsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertsViewController.h; sourceTree = "<group>"; };
 		2052AF6F168B83E900A49526 /* AlertsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertsViewController.m; sourceTree = "<group>"; };
@@ -104,8 +109,8 @@
 		2052AF7F168B83E900A49526 /* LabelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LabelViewController.m; sourceTree = "<group>"; };
 		2052AF82168B83E900A49526 /* MoreCellsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreCellsViewController.h; sourceTree = "<group>"; };
 		2052AF83168B83E900A49526 /* MoreCellsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreCellsViewController.m; sourceTree = "<group>"; };
-		2052AF84168B83E900A49526 /* NetworkRequestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkRequestViewController.h; sourceTree = "<group>"; };
-		2052AF85168B83E900A49526 /* NetworkRequestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkRequestViewController.m; sourceTree = "<group>"; };
+		2052AF84168B83E900A49526 /* NetworkRequestProgressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkRequestProgressViewController.h; sourceTree = "<group>"; };
+		2052AF85168B83E900A49526 /* NetworkRequestProgressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkRequestProgressViewController.m; sourceTree = "<group>"; };
 		2052AF86168B83E900A49526 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		2052AF87168B83E900A49526 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		2052AF97168B840B00A49526 /* Back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Back.png; sourceTree = "<group>"; };
@@ -135,9 +140,12 @@
 		2052AFB1168B840B00A49526 /* icon_74.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_74.png; sourceTree = "<group>"; };
 		2052AFB2168B840B00A49526 /* launch_iphone-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launch_iphone-568h@2x.png"; sourceTree = "<group>"; };
 		2052AFB3168B840B00A49526 /* launch_iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launch_iphone.png; sourceTree = "<group>"; };
+		20A2A522174C37CF0058571F /* SlideToUnlockViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideToUnlockViewController.h; sourceTree = "<group>"; };
+		20A2A523174C37CF0058571F /* SlideToUnlockViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideToUnlockViewController.m; sourceTree = "<group>"; };
+		20CAEA9016F4EE6400D347E1 /* CalendarDayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarDayViewController.h; sourceTree = "<group>"; };
+		20CAEA9116F4EE6400D347E1 /* CalendarDayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarDayViewController.m; sourceTree = "<group>"; };
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		32CA4F630368D1EE00C91783 /* Demo_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Demo_Prefix.pch; sourceTree = "<group>"; };
-		3B07B33B133AAE06001B1C6F /* TapkuLibrary.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = TapkuLibrary.bundle; path = ../src/TapkuLibrary.bundle; sourceTree = SOURCE_ROOT; };
 		3B111E4614593F8800C72A38 /* TapkuLibrary.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TapkuLibrary.xcodeproj; path = ../src/TapkuLibrary.xcodeproj; sourceTree = "<group>"; };
 		3BF88BEB11E547A000C9FC43 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		8D1107310486CEB800E47090 /* Demo-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Demo-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
@@ -187,7 +195,7 @@
 		2052AF95168B840B00A49526 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				3B07B33B133AAE06001B1C6F /* TapkuLibrary.bundle */,
+				2023C7B917501C32002EE717 /* TapkuLibrary.bundle */,
 				2052AF96168B840B00A49526 /* Images */,
 			);
 			path = Assets;
@@ -207,6 +215,7 @@
 				2052AFB1168B840B00A49526 /* icon_74.png */,
 				2052AFB2168B840B00A49526 /* launch_iphone-568h@2x.png */,
 				2052AFB3168B840B00A49526 /* launch_iphone.png */,
+				200908B516F627F60012DC4F /* launch_iphone@2x.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -248,8 +257,8 @@
 			children = (
 				2052AF7C168B83E900A49526 /* ImageCenterViewController.h */,
 				2052AF7D168B83E900A49526 /* ImageCenterViewController.m */,
-				2052AF84168B83E900A49526 /* NetworkRequestViewController.h */,
-				2052AF85168B83E900A49526 /* NetworkRequestViewController.m */,
+				2052AF84168B83E900A49526 /* NetworkRequestProgressViewController.h */,
+				2052AF85168B83E900A49526 /* NetworkRequestProgressViewController.m */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -274,6 +283,8 @@
 				2052AF7B168B83E900A49526 /* HUDViewController.m */,
 				2052AF6E168B83E900A49526 /* AlertsViewController.h */,
 				2052AF6F168B83E900A49526 /* AlertsViewController.m */,
+				20A2A522174C37CF0058571F /* SlideToUnlockViewController.h */,
+				20A2A523174C37CF0058571F /* SlideToUnlockViewController.m */,
 			);
 			name = Elements;
 			sourceTree = "<group>";
@@ -285,6 +296,8 @@
 				2052AF73168B83E900A49526 /* CoverflowViewController.m */,
 				2052AF74168B83E900A49526 /* CalendarMonthViewController.h */,
 				2052AF75168B83E900A49526 /* CalendarMonthViewController.m */,
+				20CAEA9016F4EE6400D347E1 /* CalendarDayViewController.h */,
+				20CAEA9116F4EE6400D347E1 /* CalendarDayViewController.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -359,7 +372,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0500;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Demo" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -408,7 +421,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B07B33C133AAE06001B1C6F /* TapkuLibrary.bundle in Resources */,
 				2052AFB4168B840B00A49526 /* Back.png in Resources */,
 				2052AFB5168B840B00A49526 /* Back@2x.png in Resources */,
 				2052AFB6168B840B00A49526 /* beer.png in Resources */,
@@ -436,6 +448,8 @@
 				2052AFCC168B840B00A49526 /* icon_74.png in Resources */,
 				2052AFCD168B840B00A49526 /* launch_iphone-568h@2x.png in Resources */,
 				2052AFCE168B840B00A49526 /* launch_iphone.png in Resources */,
+				200908B616F627F60012DC4F /* launch_iphone@2x.png in Resources */,
+				2023C7BA17501C32002EE717 /* TapkuLibrary.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -457,8 +471,10 @@
 				2052AF8F168B83E900A49526 /* ImageCenterViewController.m in Sources */,
 				2052AF90168B83E900A49526 /* LabelViewController.m in Sources */,
 				2052AF92168B83E900A49526 /* MoreCellsViewController.m in Sources */,
-				2052AF93168B83E900A49526 /* NetworkRequestViewController.m in Sources */,
+				2052AF93168B83E900A49526 /* NetworkRequestProgressViewController.m in Sources */,
 				2052AF94168B83E900A49526 /* RootViewController.m in Sources */,
+				20CAEA9216F4EE6400D347E1 /* CalendarDayViewController.m in Sources */,
+				20A2A524174C37CF0058571F /* SlideToUnlockViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -478,7 +494,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_OBJCPP_ARC_ABI = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -502,7 +517,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_OBJCPP_ARC_ABI = YES;
 				COPY_PHASE_STRIP = YES;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -524,14 +538,14 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CLANG_WARN_OBJCPP_ARC_ABI = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",
@@ -544,15 +558,14 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CLANG_WARN_OBJCPP_ARC_ABI = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_SYMBOL_SEPARATION = YES;
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = (

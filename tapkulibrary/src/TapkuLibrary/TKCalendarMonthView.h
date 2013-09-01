@@ -4,7 +4,7 @@
 //
 /*
  
- tapku.com || http://github.com/devinross/tapkulibrary
+ tapku || http://github.com/devinross/tapkulibrary
  
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
@@ -33,37 +33,47 @@
 #import <UIKit/UIKit.h>
 
 
-@class TKCalendarMonthTiles;
 @protocol TKCalendarMonthViewDelegate, TKCalendarMonthViewDataSource;
 
+#pragma mark - TKCalendarMonthView
 /** `TKCalendarMonthView` imitates the month grid in the Calendar app on iPhone. */
-@interface TKCalendarMonthView : UIView {
+@interface TKCalendarMonthView : UIView
 
-	TKCalendarMonthTiles *currentTile,*oldTile;
-	//UIButton *leftArrow, *rightArrow;
-	//UIImageView *topBackground, *shadow;
-	//UILabel *monthYear;
-	BOOL sunday;
+/** Initialize a Calendar Month Grid.
+ @param timeZone The time zone of the grid,
+ @return A `TKCalendarMonthView` object or nil.
+ */
+- (id) initWithTimeZone:(NSTimeZone*)timeZone; // or Monday
 
-}
 
+/** Initialize a Calendar Month Grid.
+ @param sunday Flag to setup the grid with Monday or Sunday as the leftmost day.
+ @param timeZone The time zone of the grid,
+ @return A `TKCalendarMonthView` object or nil.
+ */
+- (id) initWithSundayAsFirst:(BOOL)sunday timeZone:(NSTimeZone*)timeZone;
 
 /** Initialize a Calendar Month Grid.
  @param sunday Flag to setup the grid with Monday or Sunday as the leftmost day.
  @return A `TKCalendarMonthView` object or nil.
  */
-- (id) initWithSundayAsFirst:(BOOL)sunday; // or Monday
+- (id) initWithSundayAsFirst:(BOOL)sunday;
 
 /** The delegate must adopt the `TKCalendarMonthViewDelegate` protocol. The delegate is not retained. */
 @property (nonatomic,assign) id <TKCalendarMonthViewDelegate> delegate;
 
-/** The data soruce must adopt the `TKCalendarMonthViewDataSource` protocol. The data source is not retained. */
+/** The data source must adopt the `TKCalendarMonthViewDataSource` protocol. The data source is not retained. */
 @property (nonatomic,assign) id <TKCalendarMonthViewDataSource> dataSource;
+
+/** The time zone for calendar grid. */
+@property (nonatomic,strong) NSTimeZone *timeZone;
+
 
 /** The current date highlighted on the month grid.
  @return An `NSDate` object set to the month, year and day of the current selection.
  */
 - (NSDate*) dateSelected;
+
 
 /** The current month date being displayed. 
  @return An `NSDate` object set to the month and year of the current month grid.
@@ -73,13 +83,20 @@
 /** Selects a specific date in the month grid. 
  @param date The date that will be highlighed.
  */
-- (void) selectDate:(NSDate*)date;
+- (BOOL) selectDate:(NSDate*)date;
 
 /** Reloads the current month grid. */
-- (void) reload;
+- (void) reloadData;
+
+/** Animates the calendar to the next or previous month.
+ @param next YES for next month, NO for previous month.
+ */
+- (void) animateToNextOrPreviousMonth:(BOOL)next;
+
 
 @end
 
+#pragma mark - TKCalendarMonthViewDelegate
 /** The delegate of a `TKCalendarMonthView` object must adopt the `TKCalendarMonthViewDelegate` protocol. */ 
 @protocol TKCalendarMonthViewDelegate <NSObject>
 @optional
@@ -114,17 +131,16 @@
 - (void) calendarMonthView:(TKCalendarMonthView*)monthView monthDidChange:(NSDate*)month animated:(BOOL)animated;
 @end
 
-
+#pragma mark - TKCalendarMonthViewDataSource
 /** The data source of a `TKCalendarMonthView` object must adopt the `TKCalendarMonthViewDataSource` protocol. */ 
 @protocol TKCalendarMonthViewDataSource <NSObject>
 
 /** A data source that will correspond to marks for the calendar month grid for a particular month.
- 
  @param monthView The calendar month grid.
  @param startDate The first date shown by the calendar month grid.
  @param lastDate The last date shown by the calendar month grid.
  @return Returns an array of NSNumber objects corresponding the number of days specified in the start and last day parameters. Each NSNumber variable will give a BOOL value that will be used to display a dot under the day.
- 
  */
 - (NSArray*) calendarMonthView:(TKCalendarMonthView*)monthView marksFromDate:(NSDate*)startDate toDate:(NSDate*)lastDate;
+
 @end

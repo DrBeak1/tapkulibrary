@@ -4,7 +4,7 @@
 //
 /*
  
- tapku.com || http://github.com/devinross/tapkulibrary
+ tapku || http://github.com/devinross/tapkulibrary
  
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
@@ -40,7 +40,7 @@
 	_field = [[UILabel alloc] initWithFrame:CGRectZero];
     _field.font = [UIFont boldSystemFontOfSize:16.0];
 	_field.backgroundColor = [UIColor clearColor];
-
+	_field.highlightedTextColor = [UIColor whiteColor];
 	[self.contentView addSubview:_field];
 
     return self;
@@ -59,15 +59,6 @@
 	_field.frame = r;
 	
 }
-- (void) setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-	_field.textColor = selected ? [UIColor whiteColor] : [UIColor blackColor];
-}
-- (void) setHighlighted:(BOOL)highlighted animated:(BOOL)animated{
-	[super setHighlighted:highlighted animated:animated];
-	_field.textColor = highlighted ? [UIColor whiteColor] : [UIColor blackColor];
-}
-
 
 
 

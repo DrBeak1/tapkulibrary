@@ -4,7 +4,7 @@
 //
 /*
  
- tapku.com || http://github.com/devinross/tapkulibrary
+ tapku || http://github.com/devinross/tapkulibrary
  
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
@@ -31,9 +31,10 @@
 
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
+
 /** Additional functionality for `UIView`.  */
 @interface UIView (TKCategory)
-
 
 /** Adds a view to the beginning of the receiver’s list of subviews.
  @param view The view to be added. This view is retained by the receiver. After being added, this view appears below of any other subviews.
@@ -55,6 +56,5 @@
 + (void) drawLineInRect:(CGRect)rect red:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue alpha:(CGFloat)alpha;
 + (void) drawLineInRect:(CGRect)rect colors:(CGFloat[])colors;
 + (void) drawLineInRect:(CGRect)rect colors:(CGFloat[])colors width:(CGFloat)lineWidth cap:(CGLineCap)cap;
-
 
 @end

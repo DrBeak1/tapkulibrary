@@ -4,7 +4,7 @@
 //
 /*
  
- tapku.com || http://github.com/devinross/tapkulibrary
+ tapku || http://github.com/devinross/tapkulibrary
  
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
@@ -40,8 +40,9 @@
 
 
 - (void) roundOffFrame{
-	self.frame = CGRectMake((NSInteger)self.frame.origin.x, (NSInteger)self.frame.origin.y, (NSInteger)self.frame.size.width, (NSInteger)self.frame.size.height);
+	self.frame = CGRectMake(roundf(self.frame.origin.x), roundf(self.frame.origin.y), roundf(self.frame.size.width), roundf(self.frame.size.height));
 }
+
 
 
 CGPoint demoLGStart(CGRect bounds);
@@ -140,12 +141,13 @@ CGFloat demoRGInnerRadius(CGRect bounds){
 
 
 
-+ (void) drawLineInRect:(CGRect)rect colors:(CGFloat[])colors {
-	
-	[UIView drawLineInRect:rect colors:colors width:1 cap:kCGLineCapButt];
-	
++ (void) drawLineInRect:(CGRect)rect colors:(CGFloat[])colors
+{
+	[UIView drawLineInRect:rect colors:colors width:1 cap:kCGLineCapButt];	
 }
-+ (void) drawLineInRect:(CGRect)rect red:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue alpha:(CGFloat)alpha{
+
++ (void) drawLineInRect:(CGRect)rect red:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue alpha:(CGFloat)alpha
+{
 	CGFloat colors[4];
 	colors[0] = red;
 	colors[1] = green;
@@ -153,9 +155,9 @@ CGFloat demoRGInnerRadius(CGRect bounds){
 	colors[3] = alpha;
 	[UIView drawLineInRect:rect colors:colors];
 }
-+ (void) drawLineInRect:(CGRect)rect colors:(CGFloat[])colors width:(CGFloat)lineWidth cap:(CGLineCap)cap{
-	
-	
+
++ (void) drawLineInRect:(CGRect)rect colors:(CGFloat[])colors width:(CGFloat)lineWidth cap:(CGLineCap)cap
+{		
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextSaveGState(context);
 	
@@ -172,6 +174,9 @@ CGFloat demoRGInnerRadius(CGRect bounds){
 	CGContextRestoreGState(context);
 	
 }
+
+
+
 
 
 @end

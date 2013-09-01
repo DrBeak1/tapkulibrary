@@ -4,7 +4,7 @@
 //
 /*
  
- tapku.com || http://github.com/devinross/tapkulibrary
+ tapku || http://github.com/devinross/tapkulibrary
  
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
@@ -39,7 +39,7 @@
 
 
 + (NSDictionary*) dataKeys{
-	return [NSDictionary dictionary];
+	return @{};
 }
 
 
@@ -59,11 +59,11 @@
 	
 	for(NSString *dataKey in [dataKeys allKeys]){
 		
-		id value = [dataKeys objectForKey:dataKey];
+		id value = dataKeys[dataKey];
 		
 		if([value isKindOfClass:[NSString class]]){
 			
-			id obj = [dictionary objectForKey:[dataKeys objectForKey:dataKey]];
+			id obj = dictionary[dataKeys[dataKey]];
 			if(VALID_OBJECT(obj)) [self setValue:obj forKey:dataKey];
 			
 		}else if([value isKindOfClass:[NSArray class]]){
@@ -71,10 +71,10 @@
 			NSString *format = [value lastObject];
 			NSString *key = [value firstObject];
 			
-			if(VALID_OBJECT(format) && VALID_OBJECT(key)){
+			if(VALID_OBJECT(format) && VALID_OBJECT(key) && VALID_OBJECT(dictionary[key])){
 				if(!formatter) formatter = [[NSDateFormatter alloc] init];
 				[formatter setDateFormat:format];
-				NSDate *date = [formatter dateFromString:[dictionary objectForKey:key]];
+				NSDate *date = [formatter dateFromString:dictionary[key]];
 				[self setValue:date forKey:dataKey];
 			}
 			
@@ -85,8 +85,34 @@
 }
 
 
+- (NSDictionary*) dataDictionary{
+	
+	NSDateFormatter *formatter = nil;
+	NSMutableDictionary *ret = [NSMutableDictionary dictionary];
+	NSDictionary *dataKeys = [[self class] dataKeys];
+	
+	for(id key in [dataKeys allKeys]){
+		
+		id value = [self valueForKey:key];
+		
+		if(value && [value isKindOfClass:[NSDate class]]){
+			NSArray *array = dataKeys[key];
+			
+			if(!formatter) formatter = [[NSDateFormatter alloc] init];
+			formatter.dateFormat = array.lastObject;
+			
+			NSString *date = [formatter stringFromDate:value];
+			ret[array[0]] = date;
+		}else if(value)
+			ret[dataKeys[key]] = value;
+		
+	}
+	return ret;
+	
+}
 
-#pragma mark - PROCESS JSON IN THE BACKGROUND
+
+#pragma mark Process JSON in Background
 
 - (void) processJSONDataInBackground:(NSData *)data withCallbackSelector:(SEL)callback{
 	
@@ -138,12 +164,13 @@
 	
 	NSMutableDictionary *dict = [NSMutableDictionary dictionary];
 	
-	[dict setObject:data forKey:@"data"];
-	[dict setObject:[NSNumber numberWithUnsignedInt:options] forKey:@"flags"];
+	dict[@"data"] = data;
+	dict[@"flags"] = @(options);
 	
-	if(callback) [dict setObject:NSStringFromSelector(callback) forKey:@"callback"];
-	if(backgroundProcessor) [dict setObject:NSStringFromSelector(backgroundProcessor) forKey:@"backgroundProcessor"];
-	if(errroSelector) [dict setObject:NSStringFromSelector(errroSelector) forKey:@"errroSelector"];
+
+	if(callback) dict[@"callback"] = NSStringFromSelector(callback);
+	if(backgroundProcessor) dict[@"backgroundProcessor"] = NSStringFromSelector(backgroundProcessor);
+	if(errroSelector) dict[@"errroSelector"] = NSStringFromSelector(errroSelector);
 	
 	
 	[self performSelectorInBackground:@selector(_processJSONData:) withObject:dict];
@@ -156,20 +183,20 @@
 	@autoreleasepool {
 		NSError *error = nil;
 		
-		NSData *data = [dict objectForKey:@"data"];
-		NSUInteger options = [[dict objectForKey:@"flags"] unsignedIntValue];
+		NSData *data = dict[@"data"];
+		NSUInteger options = [dict[@"flags"] unsignedIntValue];
 		
-		NSString *callback = [dict objectForKey:@"callback"];
-		NSString *background = [dict objectForKey:@"backgroundProcessor"];
-		NSString *eSelector = [dict objectForKey:@"errroSelector"];
+		NSString *callback = dict[@"callback"];
+		NSString *background = dict[@"backgroundProcessor"];
+		NSString *eSelector = dict[@"errroSelector"];
 		
 		id object = [NSJSONSerialization JSONObjectWithData:data options:options error:&error];
 		
 		
 		
-		if(error){
-			if(eSelector) [self performSelector:NSSelectorFromString(eSelector) withObject:error];
-		}else{
+		if(error && eSelector){
+			[self performSelector:NSSelectorFromString(eSelector) withObject:error];
+		}else if(!error){
 			if(background) object = [self performSelector:NSSelectorFromString(background) withObject:object];
 			[self performSelectorOnMainThread:NSSelectorFromString(callback) withObject:object waitUntilDone:NO];
 		}

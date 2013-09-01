@@ -4,7 +4,7 @@
 //
 /*
  
- tapku.com || http://github.com/devinross/tapkulibrary
+ tapku || http://github.com/devinross/tapkulibrary
  
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
@@ -35,7 +35,7 @@
 @interface TKLabelFieldCell : TKLabelCell 
 
 /** A `UILabel` field. */
-@property (strong, nonatomic) UILabel *field;
+@property (nonatomic,strong) UILabel *field;
 
 @end
 

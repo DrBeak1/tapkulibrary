@@ -4,7 +4,7 @@
 //
 /*
  
- tapku.com || http://github.com/devinross/tapkulibrary
+ tapku || http://github.com/devinross/tapkulibrary
  
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
@@ -34,10 +34,7 @@
 @class TKHTTPRequest;
 
 /** This class provides basic lazy loading views and easy network request management for a `UIViewController`. */
-@interface TKViewController : UIViewController {
-	NSMutableArray *_activeRequests;
-	UIView *_loadingView;
-}
+@interface TKViewController : UIViewController
 
 
 ///----------------------------

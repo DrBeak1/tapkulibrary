@@ -4,7 +4,7 @@
 //
 /*
  
- tapku.com || https://github.com/devinross/tapkulibrary
+ tapku || https://github.com/devinross/tapkulibrary
  
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
@@ -34,12 +34,7 @@
 @class TKNetworkQueue,TKHTTPRequest;
 
 /** An `TKImageCache` object provides a way to manage images between the network, disk and `NSCache`. */
-@interface TKImageCache : NSCache {
-	NSString *_cacheDirectoryPath;
-	NSMutableDictionary *_diskKeys;
-	NSMutableDictionary *_requestKeys;
-	dispatch_queue_t cache_queue;
-}
+@interface TKImageCache : NSCache 
 
 ///-------------------------
 /// @name Initializing An Image Cache Object
@@ -64,18 +59,17 @@
 /** Shows network activity monitor in status bar when network requests are created. */
 @property BOOL shouldNetworkActivity;
 
-
 /** The queue that manages all network requests for images */
-@property (strong,nonatomic) TKNetworkQueue *imagesQueue;
+@property (nonatomic,strong) TKNetworkQueue *imagesQueue;
 
 /** The directory where images are stored on disk */
-@property (copy,nonatomic) NSString *cacheDirectoryName;
+@property (nonatomic,copy) NSString *cacheDirectoryName;
 
 /** The notification name posted to `NSNotificationCenter` */
-@property (copy,nonatomic) NSString *notificationName;
+@property (nonatomic,copy) NSString *notificationName;
 
 /** The threshold of time images on disk need to be created before to be read from disk. Otherwise the images will be requested from the network again. The time needs to be greater than zero to for the creation date to be check. Default is -1. */
-@property (assign,nonatomic) NSTimeInterval timeTillRefreshCache;
+@property (nonatomic,assign) NSTimeInterval timeTillRefreshCache;
 
 
 ///-------------------------
@@ -121,6 +115,11 @@
 
 /** Cancel all image requests */
 - (void) cancelOperations;
+
+/** Remove an image request for a specific key
+ @param key The key corresponding to a specific image.
+ */
+- (void) removeRequestForKey:(NSString*)key;
 
 /** Clears local cache and remove all images from disk */
 - (void) clearCachedImages;

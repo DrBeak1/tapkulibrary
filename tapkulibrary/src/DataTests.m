@@ -4,7 +4,7 @@
 //
 /*
  
- tapku.com || https://github.com/devinross/tapkulibrary
+ tapku || https://github.com/devinross/tapkulibrary
  
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
@@ -68,8 +68,8 @@
 	
 	SampleItem *item = [SampleItem createObject:dict];
 	
-	STAssertEqualObjects([dict objectForKey:@"name"], item.name, @"%@ isn't equal to %@",[dict objectForKey:@"name"],item.name);
-	STAssertEqualObjects([dict objectForKey:@"id"], item.identifier, @"%@ isn't equal to %@",[dict objectForKey:@"id"],item.identifier);
+	STAssertEqualObjects(dict[@"name"], item.name, @"%@ isn't equal to %@",dict[@"name"],item.name);
+	STAssertEqualObjects(dict[@"id"], item.identifier, @"%@ isn't equal to %@",dict[@"id"],item.identifier);
 	STAssertNotNil(item.createdAt, @"SampleItem createdAt should not be nil");
 	STAssertNotNil(item.updatedAt, @"SampleItem updatedAt should not be nil");
 	

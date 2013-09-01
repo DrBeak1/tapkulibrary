@@ -4,7 +4,7 @@
 //
 /*
  
- tapku.com || http://github.com/devinross/tapkulibrary
+ tapku || http://github.com/devinross/tapkulibrary
  
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
@@ -33,6 +33,12 @@
 #import "TKHTTPRequest.h"
 #import "NSArray+TKCategory.h"
 
+@interface TKViewController () {
+	NSMutableArray *_activeRequests;
+}
+
+@end
+
 @implementation TKViewController
 
 - (void) viewDidUnload{
@@ -43,7 +49,7 @@
 	[self cancelActiveRequests];
 }
 
-#pragma mark - EASILY MANAGE ACTIVE REQUESTS
+#pragma mark Easily Manage Active Requests
 - (void) addActiveRequest:(TKHTTPRequest*)request{
 	
 	if(_activeRequests==nil){
@@ -69,20 +75,21 @@
 }
 
 
-#pragma mark - PROPERTIES
+#pragma mark Properties
 - (UIView*) loadingView{
-	if(_loadingView==nil){
-		_loadingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 44)];
-		_loadingView.backgroundColor = [UIColor clearColor];
-		_loadingView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-		
-		UIActivityIndicatorView *act = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-		act.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-		
-		act.center = _loadingView.center;
-		[act startAnimating];
-		[_loadingView addSubview:act];
-	}
+	if(_loadingView) return _loadingView;
+	
+	_loadingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 44)];
+	_loadingView.backgroundColor = [UIColor clearColor];
+	_loadingView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+	
+	UIActivityIndicatorView *act = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+	act.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+	
+	act.center = _loadingView.center;
+	[act startAnimating];
+	[_loadingView addSubview:act];
+	
 	return _loadingView;
 }
 

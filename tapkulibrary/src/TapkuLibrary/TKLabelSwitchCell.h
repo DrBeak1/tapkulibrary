@@ -4,7 +4,7 @@
 //
 /*
  
- tapku.com || http://github.com/devinross/tapkulibrary
+ tapku || http://github.com/devinross/tapkulibrary
  
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
@@ -36,6 +36,6 @@
 @interface TKLabelSwitchCell : TKLabelCell 
 
 /** A `UISwitch` field. */
-@property (strong,nonatomic) UISwitch *switcher;
+@property (nonatomic,strong) UISwitch *switcher;
 
 @end

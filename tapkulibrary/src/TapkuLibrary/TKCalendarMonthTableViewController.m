@@ -4,7 +4,7 @@
 //
 /*
  
- tapku.com || http://github.com/devinross/tapkulibrary
+ tapku || http://github.com/devinross/tapkulibrary
  
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
@@ -53,7 +53,7 @@
 
 
 
-#pragma mark - TableView Delegate & Data Source
+#pragma mark TableView Delegate & Data Source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 	return 0;	
 }
@@ -73,7 +73,7 @@
     return cell;
 }
 
-#pragma mark - Month View Delegate & Data Source
+#pragma mark Month View Delegate & Data Source
 - (void) calendarMonthView:(TKCalendarMonthView*)monthView didSelectDate:(NSDate*)d{
 }
 - (void) calendarMonthView:(TKCalendarMonthView*)monthView monthDidChange:(NSDate*)month animated:(BOOL)animated{

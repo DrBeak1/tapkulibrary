@@ -4,7 +4,7 @@
 //
 /*
  
- tapku.com || http://github.com/devinross/tapkulibrary
+ tapku || http://github.com/devinross/tapkulibrary
  
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
@@ -47,10 +47,10 @@
 ///----------------------------
 
 /** The progress bar view */
-@property (strong,nonatomic) TKProgressBarView *progressBar;
+@property (nonatomic,strong) TKProgressBarView *progressBar;
 
 /** The title label for the alert. */
-@property (strong,nonatomic) UILabel *label;
+@property (nonatomic,strong) UILabel *label;
 
 ///----------------------------
 /// @name Displaying and hiding alert

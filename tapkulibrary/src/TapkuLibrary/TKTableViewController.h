@@ -4,7 +4,7 @@
 //
 /*
  
- tapku.com || http://github.com/devinross/tapkulibrary
+ tapku || http://github.com/devinross/tapkulibrary
  
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
@@ -43,18 +43,7 @@
  - Built to easily allocate and handle an empty view and search functionality. 
  
  */
-@interface TKTableViewController : TKViewController <UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,UISearchDisplayDelegate> {
-	
-	UITableView *_tableView;
-	TKEmptyView *_emptyView;
-	UISearchBar *_searchBar;
-	UISearchDisplayController *_searchBarDisplayController;
-	
-@private
-	UITableViewStyle _style;
-	CGPoint _tableViewContentOffset;
-	
-}
+@interface TKTableViewController : TKViewController <UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,UISearchDisplayDelegate>
 
 
 /** Initializes a table-view controller to manage a table view of a given style.
@@ -70,15 +59,19 @@
 ///----------------------------
 
 /** Returns the table view managed by the controller object. */
-@property (strong,nonatomic) UITableView *tableView;
+@property (nonatomic,strong) UITableView *tableView;
 
 /** Returns the empty view. Good for displaying when the content of the table view is empty. */
-@property (strong,nonatomic) TKEmptyView *emptyView;
+@property (nonatomic,strong) TKEmptyView *emptyView;
 
 /** Returns a `UISearchBar` view. */
-@property (strong,nonatomic) UISearchBar *searchBar;
+@property (nonatomic,strong) UISearchBar *searchBar;
 
 /** Returns a `UISearchDisplayController` for the search bar and table view. */
-@property (strong,nonatomic) UISearchDisplayController *searchBarDisplayController;
+@property (nonatomic,strong) UISearchDisplayController *searchBarDisplayController;
+
+/** The default value of this property is YES. When YES, the table view controller clears the table’s current selection when it receives a viewWillAppear: message. Setting this property to NO preserves the selection. */
+@property (nonatomic,assign) BOOL clearsSelectionOnViewWillAppear;
+
 
 @end
