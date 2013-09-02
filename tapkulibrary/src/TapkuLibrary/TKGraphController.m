@@ -73,8 +73,8 @@
     // * Setup Close Button
 	close = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	close.frame = CGRectMake(-10, 0, 65, 45);
-    [close setImage:[UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/graph/close"] forState:UIControlStateNormal];
-	[close setImage:[UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/graph/close_touch"] forState:UIControlStateHighlighted];
+    [close setImage:[UIImage imageNamedTK:@"graph/close"] forState:UIControlStateNormal];
+	[close setImage:[UIImage imageNamedTK:@"graph/close_touch"] forState:UIControlStateHighlighted];
 	[close addTarget:self action:@selector(close) forControlEvents:UIControlEventTouchUpInside];
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         // * Hide close button if device is iPad
@@ -103,9 +103,7 @@
 
 - (void) close
 {
-    //[self dismissModalViewControllerAnimated:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
-
 }
 
 -(void)didReceiveMemoryWarning

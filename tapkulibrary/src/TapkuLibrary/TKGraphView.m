@@ -123,10 +123,10 @@ static float highValue;
         UIImage *img;
         
         if(up){
-            img = [UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/graph/popup"];
+            img = [UIImage imageNamedTK:@"graph/popup"];
             y = 5;
         }else{
-            img = [UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/graph/popdown"];
+            img = [UIImage imageNamedTK:@"graph/popdown"];
             y = 14;
         }
         
@@ -400,7 +400,7 @@ static float highValue;
         scrollView.backgroundColor = [UIColor clearColor];
         [self addSubview:scrollView];
         
-        UIImage *mask = [[UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/graph/mask"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
+        UIImage *mask = [[UIImage imageNamedTK:@"graph/mask"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
         border = [[UIImageView alloc] initWithImage:mask];
         border.frame = self.frame;
         
