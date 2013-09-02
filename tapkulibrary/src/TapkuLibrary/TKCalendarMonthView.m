@@ -80,7 +80,9 @@ static UIImage *tileImage;
 
 + (void) initialize{
     if (self == [TKCalendarMonthTiles class]){
-        tileImage = [UIImage imageWithContentsOfFile:TKBUNDLE(@"calendar/Month Calendar Date Tile2.png")];
+//        tileImage = [UIImage imageWithContentsOfFile:TKBUNDLE(@"calendar/Month Calendar Date Tile2.png")];
+        tileImage = [UIImage imageWithContentsOfFile:TKBUNDLE(@"calendar/calendar-tile.png")];
+
     }
 }
 
@@ -133,7 +135,8 @@ static UIImage *tileImage;
 }
 
 #pragma mark Init & Friends
-+ (NSArray*) rangeOfDatesInMonthGrid:(NSDate*)date startOnSunday:(BOOL)sunday timeZone:(NSTimeZone*)timeZone{
++ (NSArray*) rangeOfDatesInMonthGrid:(NSDate*)date startOnSunday:(BOOL)sunday timeZone:(NSTimeZone*)timeZone
+{
 	
 	NSDate *firstDate, *lastDate;
 	
@@ -173,8 +176,6 @@ static UIImage *tileImage;
 	}else{
 		firstDate = currentMonth;
 	}
-	
-	
 	
 	NSInteger daysInMonth = [currentMonth daysBetweenDate:nextMonth];		
 	info.day = daysInMonth;
@@ -223,7 +224,6 @@ static UIImage *tileImage;
 	self.marks = markArray;
 	_monthDate = date;
 	startOnSunday = sunday;
-	
 	NSDateComponents *dateInfo = [_monthDate dateComponentsWithTimeZone:self.timeZone];
 	firstWeekday = dateInfo.weekday;
 	
@@ -239,9 +239,12 @@ static UIImage *tileImage;
 	CGFloat h = 44.0f * scale;
 	
 	
-	NSDateComponents *todayInfo = [[NSDate date] dateComponentsWithTimeZone:self.timeZone];
+//	NSDateComponents *todayInfo = [[NSDate date] dateComponentsWithTimeZone:self.timeZone];
+    NSDateComponents *todayInfo = [[NSDate date] dateComponentsWithTimeZone:[NSTimeZone systemTimeZone]];
 	today = dateInfo.month == todayInfo.month && dateInfo.year == todayInfo.year ? todayInfo.day : -5;
-	
+    
+    
+    
 	NSInteger preDayCnt = [prev daysBetweenDate:_monthDate];
 	if(firstWeekday>1 && sunday){
 		firstOfPrev = preDayCnt - firstWeekday+2;
@@ -313,7 +316,7 @@ static UIImage *tileImage;
 	
 	CGContextSetInterpolationQuality(context, kCGInterpolationNone);
 	CGContextDrawTiledImage(context, r, tile.CGImage);
-	
+
 	if(today > 0){
 		NSInteger pre = firstOfPrev > 0 ? lastOfPrev - firstOfPrev + 1 : 0;
 		NSInteger index = today +  pre-1;
@@ -335,8 +338,7 @@ static UIImage *tileImage;
 
 	NSInteger index = 0, mc = self.marks.count;
 	
-	
-	UIFont *font = [UIFont boldSystemFontOfSize:DATE_FONT_SIZE];
+    UIFont *font = [UIFont fontWithName:@"Avenir-Medium" size:DATE_FONT_SIZE];
 	UIFont *font2 =[UIFont boldSystemFontOfSize:DOT_FONT_SIZE];
 	UIColor *color = grayGradientColor;
 	
@@ -404,7 +406,9 @@ static UIImage *tileImage;
 	
 	selectedDay = day;
 	selectedPortion = 1;
-	self.currentDay.font = [UIFont boldSystemFontOfSize:DATE_FONT_SIZE];
+//	self.currentDay.font = [UIFont boldSystemFontOfSize:DATE_FONT_SIZE];
+    self.currentDay.font = [UIFont fontWithName:@"Avenir-Medium" size:DATE_FONT_SIZE];
+
 
 	
 	BOOL hasDot = NO;
@@ -502,7 +506,8 @@ static UIImage *tileImage;
 		day = day - daysInMonth;
 	}
 	
-	self.currentDay.font = [UIFont boldSystemFontOfSize:DATE_FONT_SIZE];
+//    self.currentDay.font = [UIFont boldSystemFontOfSize:DATE_FONT_SIZE];
+	self.currentDay.font = [UIFont fontWithName:@"Avenir-Medium" size:DATE_FONT_SIZE];
 	self.currentDay.hidden = NO;
 	self.dot.hidden = NO;
 	
@@ -580,7 +585,8 @@ static UIImage *tileImage;
 	_currentDay.text = @"1";
 	_currentDay.textColor = [UIColor whiteColor];
 	_currentDay.backgroundColor = [UIColor clearColor];
-	_currentDay.font = [UIFont boldSystemFontOfSize:DATE_FONT_SIZE];
+//	_currentDay.font = [UIFont boldSystemFontOfSize:DATE_FONT_SIZE];
+    _currentDay.font = [UIFont fontWithName:@"Avenir-Medium" size:DATE_FONT_SIZE];
 	_currentDay.textAlignment = NSTextAlignmentCenter;
 	_currentDay.shadowColor = [UIColor darkGrayColor];
 	_currentDay.shadowOffset = CGSizeMake(0, -1);
@@ -719,7 +725,8 @@ static UIImage *tileImage;
 		label.textAlignment = NSTextAlignmentCenter;
 		label.shadowColor = [UIColor whiteColor];
 		label.shadowOffset = CGSizeMake(0, 1);
-		label.font = [UIFont boldSystemFontOfSize:10];
+//		label.font = [UIFont boldSystemFontOfSize:10];
+        label.font = [UIFont fontWithName:@"Avenir-Light" size:10];
 		label.backgroundColor = [UIColor clearColor];
 		label.textColor = TEXT_COLOR;
 		i++;
@@ -756,7 +763,6 @@ static UIImage *tileImage;
 	if(self.currentTile) return;
 	
 	NSDate *month = [date firstOfMonthWithTimeZone:self.timeZone];
-    NSLog(@"month: %@", month);
 	NSArray *dates = [TKCalendarMonthTiles rangeOfDatesInMonthGrid:month startOnSunday:self.sunday timeZone:self.timeZone];
 	NSArray *data = [self.dataSource calendarMonthView:self marksFromDate:dates[0] toDate:[dates lastObject]];
 	
@@ -930,7 +936,8 @@ static UIImage *tileImage;
 #pragma mark Properties & Public Functions
 - (UIView *) topBackground{
 	if(_topBackground) return _topBackground;
-	
+
+	/*
 	TKGradientView *gradient = [[TKGradientView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, TOP_BAR_HEIGHT)];
 	gradient.colors = @[[UIColor colorWithHex:0xf4f4f5],[UIColor colorWithHex:0xccccd1]];
 	gradient.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -941,6 +948,17 @@ static UIImage *tileImage;
 	
 	gradient.userInteractionEnabled = YES;
 	_topBackground = gradient;
+     */
+    UIView *b = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, TOP_BAR_HEIGHT)];
+    b.backgroundColor = [UIColor whiteColor];
+    b.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+	UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 44, b.bounds.size.width, 1)];
+	line.backgroundColor = [UIColor colorWithHex:0xaaaeb6];
+	line.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+	[b addSubview:line];
+    
+    b.userInteractionEnabled = YES;
+    _topBackground = b;
 	return _topBackground;
 }
 - (UILabel *) monthYear{
@@ -949,7 +967,8 @@ static UIImage *tileImage;
 	_monthYear = [[UILabel alloc] initWithFrame:CGRectInset(CGRectMake(0, 0, VIEW_WIDTH, 36), 40, 6)];
 	_monthYear.textAlignment = NSTextAlignmentCenter;
 	_monthYear.backgroundColor = [UIColor clearColor];
-	_monthYear.font = [UIFont boldSystemFontOfSize:22];
+//	_monthYear.font = [UIFont boldSystemFontOfSize:22];
+    _monthYear.font = [UIFont fontWithName:@"Avenir-Medium" size:22];
 	_monthYear.shadowColor = [UIColor whiteColor];
 	_monthYear.shadowOffset = CGSizeMake(0,1);
 	_monthYear.textColor = gradientColor;
@@ -1015,13 +1034,14 @@ static UIImage *tileImage;
 		return [[NSDate date] monthDateWithTimeZone:self.timeZone];
 	return [self.currentTile monthDate];
 }
+
 - (BOOL) selectDate:(NSDate*)date{
 	if(date==nil) return NO;
-	
-	
-	NSDateComponents *info = [date dateComponentsWithTimeZone:self.timeZone];
+    
+//	NSDateComponents *info = [date dateComponentsWithTimeZone:self.timeZone];
+    NSDateComponents *info = [date dateComponentsWithTimeZone:[NSTimeZone systemTimeZone]];
+
 	NSDate *month = [date firstOfMonthWithTimeZone:self.timeZone];
-	
 	BOOL ret = NO;
 	if([month isEqualToDate:[self.currentTile monthDate]]){
 		ret = [self.currentTile selectDay:info.day];
@@ -1053,6 +1073,7 @@ static UIImage *tileImage;
 	
 	return ret;
 }
+
 - (void) reloadData{
 	
 	NSDate *d = self.currentTile.dateSelected;
