@@ -400,12 +400,6 @@ static float highValue;
         scrollView.backgroundColor = [UIColor clearColor];
         [self addSubview:scrollView];
         
-        UIImage *mask = [[UIImage imageNamedTK:@"graph/mask"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
-        border = [[UIImageView alloc] initWithImage:mask];
-        border.frame = self.frame;
-        
-        [self addSubview:border];
-        
         plotView = [[TKGraphViewPlotView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
         plotView.backgroundColor = [UIColor clearColor];
         [scrollView addSubview:plotView];
@@ -775,7 +769,6 @@ static float highValue;
 	[goalLabel release];
 	[indicator release];
 	[titleLabel release];
-	[border release];
 	[scrollView release];
 	[plotView release];
     [super dealloc];

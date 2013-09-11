@@ -63,10 +63,10 @@
 {
     [super viewDidLoad];
     
-	//graph = [[TKGraph alloc] initWithFrame:CGRectMake(0, 0, 480, 300)];
-	//graph.dataSource = self;
-	//graph.backgroundColor = [UIColor whiteColor];
-	//[self.view addSubview:graph];
+    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1 &&
+        [self respondsToSelector:@selector(edgesForExtendedLayout)]) {
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
 	
     self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     
