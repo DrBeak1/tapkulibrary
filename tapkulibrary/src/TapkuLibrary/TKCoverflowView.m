@@ -203,11 +203,11 @@
 
 	
 	if(_range.length<1) return;
-	NSString *ID = [NSString stringWithFormat:@"%d",_currentIndex];
+	NSString *identifier = [NSString stringWithFormat:@"%d",_currentIndex];
 	
 	
 	
-	[UIView beginAnimations:ID context:nil];
+	[UIView beginAnimations:identifier context:nil];
 	[UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
 	[UIView setAnimationDuration:animated ? 0.22f : 0.0f];
 	[UIView setAnimationBeginsFromCurrentState:YES];
