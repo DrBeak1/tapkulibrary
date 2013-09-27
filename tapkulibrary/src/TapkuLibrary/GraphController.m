@@ -209,6 +209,7 @@ indicator = _indicator;
 
 }
 
+#warning GraphController.m : setupOriginalDataWithSetType - requires rewrite to support new NSDecimalNumber of measurementAValue
 
 -(void)setupOriginaldataWithSetType:(GraphDataSetType)type
 {
@@ -294,7 +295,7 @@ indicator = _indicator;
             // max reps record
             
             self.sortOptionsButton.hidden = NO;
-
+            
             int b = 0;
             for (b = 0; b < [self.originalData count]; b++) {
                 NSDictionary *dic = [[NSDictionary alloc] initWithDictionary:[self.originalData objectAtIndex:b]];
@@ -308,38 +309,32 @@ indicator = _indicator;
                 if (sortOption==MaxRecordSortOptionTime) {
                     self.isForTime = YES;
                     NSString *timeString = @"";
-                    if ([dic objectForKey:@"weight"] &&
-                        ![[dic objectForKey:@"weight"] isKindOfClass:[NSNull class]]) {
-                        timeString = [dic objectForKey:@"weight"];
+                    if ([dic objectForKey:@"measurementB"] &&
+                        ![[dic objectForKey:@"measurementB"] isKindOfClass:[NSNull class]]) {
+                        timeString = [dic objectForKey:@"measurementB"];
                     }
                     if ([timeString isEqualToString:@""]) {
                         timeString = @"0:00";
                     }
                     NSArray *time = [timeString componentsSeparatedByString:@":"];
+                    int minutes = [[time objectAtIndex:0] intValue];
+                    int seconds = [[time objectAtIndex:1] intValue];
                     
-                    float minutes = 0.0;
-                    float seconds = 0.0;
-                    if (time.count>0) {
-                        minutes = [[time objectAtIndex:0] floatValue];
-                        if (time.count>=1) {
-                            seconds = [[time objectAtIndex:1] floatValue];
-                        }
-                    }
-
-                    float rawTime = (minutes * 60) + seconds;
+                    NSInteger rawTime = (minutes * 60) + seconds;
                     
                     if (rawTime < self.lowestNumber) {
                         self.lowestNumber = rawTime;
                         self.recordIndex = b;
                     }
-                    GraphPoint *gp = [[GraphPoint alloc] initWithID:b value:[NSNumber numberWithFloat:rawTime] andDate:date forTime:self.isForTime];
+                    
+                    GraphPoint *gp = [[GraphPoint alloc] initWithID:b value:[NSNumber numberWithInteger:rawTime] andDate:date forTime:self.isForTime];
                     [self.data addObject:gp];
                 } else {
                     self.isForTime = NO;
                     NSInteger score = 0;
-                    if ([dic objectForKey:@"reps"] &&
-                        ![[dic objectForKey:@"reps"] isKindOfClass:[NSNull class]]) {
-                        score = [[dic objectForKey:@"reps"] integerValue];
+                    if ([dic objectForKey:@"measurementAValue"] &&
+                        ![[dic objectForKey:@"measurementAValue"] isKindOfClass:[NSNull class]]) {
+                        score = [[dic objectForKey:@"measurementAValue"] integerValue];
                     }
                     
                     if (score > self.highestNumber) {
@@ -350,7 +345,7 @@ indicator = _indicator;
                     GraphPoint *gp = [[GraphPoint alloc] initWithID:b value:[NSNumber numberWithInteger:score] andDate:date forTime:self.isForTime];
                     [self.data addObject:gp];
                 }
-
+                
             }
             
             break;
@@ -371,30 +366,25 @@ indicator = _indicator;
                 }
                 self.isForTime = YES;
                 NSString *timeString = @"";
-                if ([dic objectForKey:@"weight"] &&
-                    ![[dic objectForKey:@"weight"] isKindOfClass:[NSNull class]]) {
-                    timeString = [dic objectForKey:@"weight"];
+                if ([dic objectForKey:@"measurementB"] &&
+                    ![[dic objectForKey:@"measurementB"] isKindOfClass:[NSNull class]]) {
+                    timeString = [dic objectForKey:@"measurementB"];
                 }
                 if ([timeString isEqualToString:@""]) {
                     timeString = @"0:00";
                 }
                 NSArray *time = [timeString componentsSeparatedByString:@":"];
-                float minutes = 0.0;
-                float seconds = 0.0;
-                if (time.count>0) {
-                    minutes = [[time objectAtIndex:0] floatValue];
-                    if (time.count>=1) {
-                        seconds = [[time objectAtIndex:1] floatValue];
-                    }
-                }
+                int minutes = [[time objectAtIndex:0] intValue];
+                int seconds = [[time objectAtIndex:1] intValue];
                 
-                float rawTime = (minutes * 60) + seconds;
-                                
+                NSInteger rawTime = (minutes * 60) + seconds;
+                
                 if (rawTime < self.lowestNumber) {
                     self.lowestNumber = rawTime;
                     self.recordIndex = c;
                 }
-                GraphPoint *gp = [[GraphPoint alloc] initWithID:c value:[NSNumber numberWithFloat:rawTime] andDate:date forTime:self.isForTime];
+                
+                GraphPoint *gp = [[GraphPoint alloc] initWithID:c value:[NSNumber numberWithInteger:rawTime] andDate:date forTime:self.isForTime];
                 [self.data addObject:gp];
                 
             }
@@ -418,9 +408,9 @@ indicator = _indicator;
                 
                 self.isForTime = NO;
                 NSInteger score = 0;
-                if ([dic objectForKey:@"weight"] &&
-                    ![[dic objectForKey:@"weight"] isKindOfClass:[NSNull class]]) {
-                    score = [[dic objectForKey:@"weight"] floatValue];
+                if ([dic objectForKey:@"measurementAValue"] &&
+                    ![[dic objectForKey:@"measumrentAValue"] isKindOfClass:[NSNull class]]) {
+                    score = [[dic objectForKey:@"measurementAValue"] integerValue];
                 }
                 
                 
@@ -439,7 +429,7 @@ indicator = _indicator;
         case GraphDataSetTypeMaxWeightRecord: {
             // * heaviest weight record
             self.sortOptionsButton.hidden = YES;
-
+            
             int e = 0;
             for (e = 0; e < [self.originalData count]; e++) {
                 NSDictionary *dic = [[NSDictionary alloc] initWithDictionary:[self.originalData objectAtIndex:e]];
@@ -452,9 +442,9 @@ indicator = _indicator;
                 
                 self.isForTime = NO;
                 NSInteger score = 0;
-                if ([dic objectForKey:@"weight"] &&
-                    ![[dic objectForKey:@"weight"] isKindOfClass:[NSNull class]]) {
-                    score = [[dic objectForKey:@"weight"] floatValue];
+                if ([dic objectForKey:@"measurementAValue"] &&
+                    ![[dic objectForKey:@"measurementAValue"] isKindOfClass:[NSNull class]]) {
+                    score = [[dic objectForKey:@"measurementAValue"] integerValue];
                 }
                 
                 
@@ -465,7 +455,7 @@ indicator = _indicator;
                 
                 GraphPoint *gp = [[GraphPoint alloc] initWithID:e value:[NSNumber numberWithInteger:score] andDate:date forTime:self.isForTime];
                 [self.data addObject:gp];
-
+                
             }
             
             break;
@@ -486,9 +476,9 @@ indicator = _indicator;
                 
                 self.isForTime = NO;
                 NSInteger score = 0;
-                if ([dic objectForKey:@"weight"] &&
-                    ![[dic objectForKey:@"weight"] isKindOfClass:[NSNull class]]) {
-                    score = [[dic objectForKey:@"weight"] floatValue];
+                if ([dic objectForKey:@"measurementAValue"] &&
+                    ![[dic objectForKey:@"measurementAValue"] isKindOfClass:[NSNull class]]) {
+                    score = [[dic objectForKey:@"measurementAValue"] integerValue];
                 }
                 
                 
