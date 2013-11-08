@@ -220,7 +220,15 @@ static float highValue;
 				CGContextMoveToPoint(context, (i+1) * POINT_DISTANCE + SCROLL_MARGINS, SCROLL_HEIGHT);
 				started = YES;
 			}
-			CGContextAddLineToPoint(context,  (i+1) * POINT_DISTANCE + SCROLL_MARGINS,[self yCoordinate:[data objectAtIndex:i]]);
+            
+#warning FIX CRASH OCCURING HERE
+            NSObject<TKGraphViewPoint> *p = [data objectAtIndex:i];
+            if ([p.yValue isEqualToNumber:[NSNumber numberWithInteger:0]]) {
+                NSLog(@"y : %@",p.yValue);
+            }
+            
+            CGContextAddLineToPoint(context,  (i+1) * POINT_DISTANCE + SCROLL_MARGINS,[self yCoordinate:[data objectAtIndex:i]]);
+
 			j=i;
 		}
 	}
