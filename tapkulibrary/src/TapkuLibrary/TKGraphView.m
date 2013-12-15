@@ -221,15 +221,16 @@ static float highValue;
 				started = YES;
 			}
             
-#warning FIX CRASH OCCURING HERE
-            NSObject<TKGraphViewPoint> *p = [data objectAtIndex:i];
-            if ([p.yValue isEqualToNumber:[NSNumber numberWithInteger:0]]) {
-                NSLog(@"y : %@",p.yValue);
+            if ([data objectAtIndex:i]) {
+                NSObject<TKGraphViewPoint> *p = [data objectAtIndex:i];
+                if ([p.yValue isEqualToNumber:[NSNumber numberWithInteger:0]]) {
+                    NSLog(@"y : %@",p.yValue);
+                }
+                
+                CGContextAddLineToPoint(context,  (i+1) * POINT_DISTANCE + SCROLL_MARGINS,[self yCoordinate:[data objectAtIndex:i]]);
+                
+                j=i;
             }
-            
-            CGContextAddLineToPoint(context,  (i+1) * POINT_DISTANCE + SCROLL_MARGINS,[self yCoordinate:[data objectAtIndex:i]]);
-
-			j=i;
 		}
 	}
 	

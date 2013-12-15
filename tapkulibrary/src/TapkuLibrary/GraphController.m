@@ -209,8 +209,6 @@ indicator = _indicator;
 
 }
 
-#warning GraphController.m : setupOriginalDataWithSetType - requires rewrite to support new NSDecimalNumber of measurementAValue
-
 -(void)setupOriginaldataWithSetType:(GraphDataSetType)type
 {
     // * Sort by date
