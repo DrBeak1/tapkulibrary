@@ -418,6 +418,7 @@ indicator = _indicator;
                 }
                 GraphPoint *gp = nil;
                 if ([self isValidTime:timeString]) {
+                    NSLog(@"valid");
                     NSArray *time = [timeString componentsSeparatedByString:@":"];
                     float minutes = 0.0;
                     float seconds = 0.0;
@@ -439,6 +440,7 @@ indicator = _indicator;
                                                 andDate:date
                                                 forTime:self.isForTime];
                 } else {
+                    NSLog(@"not valid");
                     gp = [[GraphPoint alloc] initWithID:c
                                                   value:[NSNumber numberWithFloat:0.0]
                                                 andDate:date
