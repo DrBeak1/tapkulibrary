@@ -41,7 +41,10 @@ value = _value,
 aDate = _aDate,
 forTime = _forTime;
 
--(id)initWithID:(int)pkv value:(NSNumber*)number andDate:(NSDate *)date forTime:(BOOL)isForTime 
+-(id)initWithID:(int)pkv
+          value:(NSNumber*)number
+        andDate:(NSDate *)date
+        forTime:(BOOL)isForTime
 {
     if(!(self=[super init])) return nil;
     
@@ -74,7 +77,7 @@ forTime = _forTime;
 - (NSString*)yLabel
 {
     if (!self.forTime) {
-        return [NSString stringWithFormat:@"%d",[self.value intValue]];
+        return [NSString stringWithFormat:@"%g",[self.value floatValue]];
     } else {
         
         NSInteger rawSeconds = [self.value integerValue];
@@ -228,7 +231,6 @@ indicator = _indicator;
             // * Completed WOD
             
             self.sortOptionsButton.hidden = YES;
-            
             int a = 0;
             for (a = 0; a < [self.originalData count]; a++) {
                 NSDictionary *dic = [[NSDictionary alloc] initWithDictionary:[self.originalData objectAtIndex:a]];
@@ -243,37 +245,57 @@ indicator = _indicator;
                     }
                     
                     if ([[dic objectForKey:@"scoreType"] isEqualToString:@"For Time:"]) {
+                        // * ---------------
+                        // * WOD is for time
+                        // * ---------------
                         self.isForTime = YES;
                         NSString *timeString = [dic objectForKey:@"score"];
                         if ([timeString isEqualToString:@""]) {
                             timeString = @"0:00";
                         }
-                        NSArray *time = [timeString componentsSeparatedByString:@":"];
                         
-                        float minutes = 0.0;
-                        float seconds = 0.0;
-                        if (time.count>0) {
-                            minutes = [[time objectAtIndex:0] floatValue];
-                            if (time.count>=1) {
-                                seconds = [[time objectAtIndex:1] floatValue];
+                        GraphPoint *gp = nil;
+                        
+                        if ([self isValidTime:timeString]) {
+                            // * Time is valid, proceed
+                            NSArray *time = [timeString componentsSeparatedByString:@":"];
+                            
+                            float minutes = 0.0;
+                            float seconds = 0.0;
+                            if (time.count>0) {
+                                minutes = [[time objectAtIndex:0] floatValue];
+                                if (time.count>=1) {
+                                    seconds = [[time objectAtIndex:1] floatValue];
+                                }
                             }
+                            
+                            float rawTime = (minutes * 60) + seconds;
+                            
+                            if (rawTime < self.lowestNumber) {
+                                self.lowestNumber = rawTime;
+                                self.recordIndex = a;
+                            }
+                            gp = [[GraphPoint alloc] initWithID:a
+                                                          value:[NSNumber numberWithFloat:rawTime]
+                                                        andDate:date
+                                                        forTime:self.isForTime];
+                        } else {
+                            gp = [[GraphPoint alloc] initWithID:a
+                                                          value:[NSNumber numberWithFloat:0.0]
+                                                        andDate:date
+                                                        forTime:self.isForTime];
                         }
-                                                
-                        float rawTime = (minutes * 60) + seconds;
-                        
-                        if (rawTime < self.lowestNumber) {
-                            self.lowestNumber = rawTime;
-                            self.recordIndex = a;
-                        }
-                        GraphPoint *gp = [[GraphPoint alloc] initWithID:a value:[NSNumber numberWithFloat:rawTime] andDate:date forTime:self.isForTime];
                         [self.data addObject:gp];
                     } else {
+                        // * ----------------
+                        // * WOD not for time
+                        // * ----------------
                         self.isForTime = NO;
-                        NSInteger score;
+                        float score = 0.0;
                         if ([[dic objectForKey:@"score"] isEqualToString:@""]) {
-                            score = 0;
+                            score = 0.0;
                         } else {
-                            score = [[dic objectForKey:@"score"] intValue];
+                            score = [[dic objectForKey:@"score"] floatValue];
                         }
                         
                         if (score > self.highestNumber) {
@@ -281,7 +303,10 @@ indicator = _indicator;
                             self.recordIndex = a;
                         }
                         
-                        GraphPoint *gp = [[GraphPoint alloc] initWithID:a value:[NSNumber numberWithInteger:score] andDate:date forTime:self.isForTime];
+                        GraphPoint *gp = [[GraphPoint alloc] initWithID:a
+                                                                  value:[NSNumber numberWithFloat:score]
+                                                                andDate:date
+                                                                forTime:self.isForTime];
                         [self.data addObject:gp];
                     }
                 }
@@ -314,18 +339,38 @@ indicator = _indicator;
                     if ([timeString isEqualToString:@""]) {
                         timeString = @"0:00";
                     }
-                    NSArray *time = [timeString componentsSeparatedByString:@":"];
-                    int minutes = [[time objectAtIndex:0] intValue];
-                    int seconds = [[time objectAtIndex:1] intValue];
+
                     
-                    NSInteger rawTime = (minutes * 60) + seconds;
-                    
-                    if (rawTime < self.lowestNumber) {
-                        self.lowestNumber = rawTime;
-                        self.recordIndex = b;
+                    GraphPoint *gp = nil;
+                    if ([self isValidTime:timeString]) {
+                        NSArray *time = [timeString componentsSeparatedByString:@":"];
+                        
+                        float minutes = 0.0;
+                        float seconds = 0.0;
+                        if (time.count>0) {
+                            minutes = [[time objectAtIndex:0] floatValue];
+                            if (time.count>=1) {
+                                seconds = [[time objectAtIndex:1] floatValue];
+                            }
+                        }
+                        
+                        float rawTime = (minutes * 60) + seconds;
+                        
+                        if (rawTime < self.lowestNumber) {
+                            self.lowestNumber = rawTime;
+                            self.recordIndex = b;
+                        }
+                        gp = [[GraphPoint alloc] initWithID:b
+                                                      value:[NSNumber numberWithFloat:rawTime]
+                                                    andDate:date
+                                                    forTime:self.isForTime];
+                    } else {
+                        gp = [[GraphPoint alloc] initWithID:b
+                                                      value:[NSNumber numberWithFloat:0.0]
+                                                    andDate:date
+                                                    forTime:self.isForTime];
                     }
                     
-                    GraphPoint *gp = [[GraphPoint alloc] initWithID:b value:[NSNumber numberWithInteger:rawTime] andDate:date forTime:self.isForTime];
                     [self.data addObject:gp];
                 } else {
                     self.isForTime = NO;
@@ -371,22 +416,36 @@ indicator = _indicator;
                 if ([timeString isEqualToString:@""]) {
                     timeString = @"0:00";
                 }
-                NSArray *time = [timeString componentsSeparatedByString:@":"];
-                int minutes = [[time objectAtIndex:0] intValue];
-                int seconds = [[time objectAtIndex:1] intValue];
-                
-                NSInteger rawTime = (minutes * 60) + seconds;
-                
-                if (rawTime < self.lowestNumber) {
-                    self.lowestNumber = rawTime;
-                    self.recordIndex = c;
+                GraphPoint *gp = nil;
+                if ([self isValidTime:timeString]) {
+                    NSArray *time = [timeString componentsSeparatedByString:@":"];
+                    float minutes = 0.0;
+                    float seconds = 0.0;
+                    if (time.count>0) {
+                        minutes = [[time objectAtIndex:0] floatValue];
+                        if (time.count>=1) {
+                            seconds = [[time objectAtIndex:1] floatValue];
+                        }
+                    }
+                    
+                    float rawTime = (minutes * 60) + seconds;
+                    
+                    if (rawTime < self.lowestNumber) {
+                        self.lowestNumber = rawTime;
+                        self.recordIndex = c;
+                    }
+                    gp = [[GraphPoint alloc] initWithID:c
+                                                  value:[NSNumber numberWithFloat:rawTime]
+                                                andDate:date
+                                                forTime:self.isForTime];
+                } else {
+                    gp = [[GraphPoint alloc] initWithID:c
+                                                  value:[NSNumber numberWithFloat:0.0]
+                                                andDate:date
+                                                forTime:self.isForTime];
                 }
-                
-                GraphPoint *gp = [[GraphPoint alloc] initWithID:c value:[NSNumber numberWithInteger:rawTime] andDate:date forTime:self.isForTime];
                 [self.data addObject:gp];
-                
             }
-            
             break;
         }
         case GraphDataSetTypeMaxHeightRecord: {
@@ -500,17 +559,21 @@ indicator = _indicator;
         self.graph.goalShown = YES;
         self.graph.goalTitle = @"Record";
         [self.graph showIndicatorForPoint:self.recordIndex];
-        //  [self.graph scrollToPoint:self.recordIndex animated:YES];
     } else {
         [self.graph setGraphWithDataPoints:self.data];
         self.graph.goalValue = [NSNumber numberWithInteger:self.lowestNumber];
         self.graph.goalShown = YES;
         self.graph.goalTitle = @"Record";
         [self.graph showIndicatorForPoint:self.recordIndex];
-        //  [self.graph scrollToPoint:self.recordIndex animated:YES];
     }
     
     
+}
+
+-(BOOL)isValidTime:(NSString *)time
+{
+    NSRange range = [time rangeOfString : @":" options:(NSCaseInsensitiveSearch)];
+    return range.location!= NSNotFound;
 }
 
 -(void)showSortOptions
