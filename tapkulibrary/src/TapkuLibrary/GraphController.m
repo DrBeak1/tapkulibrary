@@ -41,7 +41,10 @@ value = _value,
 aDate = _aDate,
 forTime = _forTime;
 
--(id)initWithID:(int)pkv value:(NSNumber*)number andDate:(NSDate *)date forTime:(BOOL)isForTime 
+-(id)initWithID:(int)pkv
+          value:(NSNumber*)number
+        andDate:(NSDate *)date
+        forTime:(BOOL)isForTime
 {
     if(!(self=[super init])) return nil;
     
@@ -74,7 +77,7 @@ forTime = _forTime;
 - (NSString*)yLabel
 {
     if (!self.forTime) {
-        return [NSString stringWithFormat:@"%d",[self.value intValue]];
+        return [NSString stringWithFormat:@"%g",[self.value floatValue]];
     } else {
         
         NSInteger rawSeconds = [self.value integerValue];
@@ -229,7 +232,6 @@ indicator = _indicator;
             // * Completed WOD
             
             self.sortOptionsButton.hidden = YES;
-            
             int a = 0;
             for (a = 0; a < [self.originalData count]; a++) {
                 NSDictionary *dic = [[NSDictionary alloc] initWithDictionary:[self.originalData objectAtIndex:a]];
@@ -244,6 +246,9 @@ indicator = _indicator;
                     }
                     
                     if ([[dic objectForKey:@"scoreType"] isEqualToString:@"For Time:"]) {
+                        // * ---------------
+                        // * WOD is for time
+                        // * ---------------
                         self.isForTime = YES;
                         NSString *timeString = [dic objectForKey:@"score"];
                         if ([timeString isEqualToString:@""]) {
@@ -283,12 +288,15 @@ indicator = _indicator;
                         }
                         [self.data addObject:gp];
                     } else {
+                        // * ----------------
+                        // * WOD not for time
+                        // * ----------------
                         self.isForTime = NO;
-                        NSInteger score;
+                        float score = 0.0;
                         if ([[dic objectForKey:@"score"] isEqualToString:@""]) {
-                            score = 0;
+                            score = 0.0;
                         } else {
-                            score = [[dic objectForKey:@"score"] intValue];
+                            score = [[dic objectForKey:@"score"] floatValue];
                         }
                         
                         if (score > self.highestNumber) {
@@ -296,7 +304,10 @@ indicator = _indicator;
                             self.recordIndex = a;
                         }
                         
-                        GraphPoint *gp = [[GraphPoint alloc] initWithID:a value:[NSNumber numberWithInteger:score] andDate:date forTime:self.isForTime];
+                        GraphPoint *gp = [[GraphPoint alloc] initWithID:a
+                                                                  value:[NSNumber numberWithFloat:score]
+                                                                andDate:date
+                                                                forTime:self.isForTime];
                         [self.data addObject:gp];
                     }
                 }
