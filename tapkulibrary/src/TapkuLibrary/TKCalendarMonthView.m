@@ -74,9 +74,16 @@ static UIImage *tileImage;
 
 @end
 
-
 #pragma mark -
 @implementation TKCalendarMonthTiles
+
+-(NSArray *)marks
+{
+    if (!_marks) {
+        _marks = [[NSArray alloc] init];
+    }
+    return _marks;
+}
 
 + (void) initialize{
     if (self == [TKCalendarMonthTiles class]){
@@ -221,7 +228,8 @@ static UIImage *tileImage;
 	self.timeZone = timeZone;
 	
 	firstOfPrev = -1;
-	self.marks = markArray;
+    self.marks = [[NSArray alloc] initWithArray:markArray];
+	//self.marks = markArray;
 	_monthDate = date;
 	startOnSunday = sunday;
 	NSDateComponents *dateInfo = [_monthDate dateComponentsWithTimeZone:self.timeZone];
@@ -406,10 +414,7 @@ static UIImage *tileImage;
 	
 	selectedDay = day;
 	selectedPortion = 1;
-//	self.currentDay.font = [UIFont boldSystemFontOfSize:DATE_FONT_SIZE];
     self.currentDay.font = [UIFont fontWithName:@"Avenir-Medium" size:DATE_FONT_SIZE];
-
-
 	
 	BOOL hasDot = NO;
 	
@@ -429,15 +434,15 @@ static UIImage *tileImage;
 	
 		
 	self.currentDay.text = [numberFormatter stringFromNumber:@(day)];
-	
+    // * -----------------------------------------
+    // * This determines if the currently selected
+    // * day should have a dot on it as well
+    // * -----------------------------------------
 	if (self.marks.count > 0) {
         NSInteger index = (row * 7 + column);
-        if (index >= self.marks.count) {
-#ifdef DEBUG
-            NSLog(@"adjusting index = %i - 1", self.marks.count);
-#endif
-            index = self.marks.count - 1;
+        if (index==self.marks.count) {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"CalendarIndexErrorNotification" object:nil userInfo:nil];
+            index--;
         }
         if([self.marks[index] boolValue]){
             hasDot = YES;
@@ -855,8 +860,6 @@ static UIImage *tileImage;
 			[self.delegate calendarMonthView:self monthDidChange:dateForMonth animated:YES];
 		
 		[self.currentTile selectDay:day];
-		
-		
 	}
 	
 }
@@ -1048,15 +1051,14 @@ static UIImage *tileImage;
 - (BOOL) selectDate:(NSDate*)date{
 	if(date==nil) return NO;
     
-//	NSDateComponents *info = [date dateComponentsWithTimeZone:self.timeZone];
-    NSDateComponents *info = [date dateComponentsWithTimeZone:[NSTimeZone systemTimeZone]];
+	NSDateComponents *info = [date dateComponentsWithTimeZone:self.timeZone];
+//    NSDateComponents *info = [date dateComponentsWithTimeZone:[NSTimeZone systemTimeZone]];
 
 	NSDate *month = [date firstOfMonthWithTimeZone:self.timeZone];
 	BOOL ret = NO;
 	if([month isEqualToDate:[self.currentTile monthDate]]){
 		ret = [self.currentTile selectDay:info.day];
 	}else {
-		
 		if ([self.delegate respondsToSelector:@selector(calendarMonthView:monthShouldChange:animated:)] && ![self.delegate calendarMonthView:self monthShouldChange:month animated:YES])
 			return NO;
 		
@@ -1070,12 +1072,10 @@ static UIImage *tileImage;
 		[self _setupCurrentTileView:date];
 		[self.currentTile selectDay:info.day];
 		
-		
 		if([self.delegate respondsToSelector:@selector(calendarMonthView:monthDidChange:animated:)])
 			[self.delegate calendarMonthView:self monthDidChange:date animated:NO];
 		
-		ret = [self.currentTile selectDay:info.day];
-		
+		ret = [self.currentTile selectDay:info.day];		
 	}
 	
 	if([self.delegate respondsToSelector:@selector(calendarMonthView:didSelectDate:)])
@@ -1085,7 +1085,6 @@ static UIImage *tileImage;
 }
 
 - (void) reloadData{
-	
 	NSDate *d = self.currentTile.dateSelected;
 	[self.currentTile removeFromSuperview];
 	
