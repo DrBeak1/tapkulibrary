@@ -431,14 +431,24 @@ static UIImage *tileImage;
 	self.currentDay.text = [numberFormatter stringFromNumber:@(day)];
 	
 	if (self.marks.count > 0) {
+        NSInteger index = (row * 7 + column);
+        if (index >= self.marks.count) {
+#ifdef DEBUG
+            NSLog(@"adjusting index = %i - 1", self.marks.count);
+#endif
+            index = self.marks.count - 1;
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"CalendarIndexErrorNotification" object:nil userInfo:nil];
+        }
+        if([self.marks[index] boolValue]){
+            hasDot = YES;
+            [self.selectedImageView addSubview:self.dot];
+        } else {
+            [self.dot removeFromSuperview];
+        }
 		
-		if([self.marks[row * 7 + column] boolValue]){
-			hasDot = YES;
-			[self.selectedImageView addSubview:self.dot];
-		}else
-			[self.dot removeFromSuperview];
-		
-	}else [self.dot removeFromSuperview];
+	} else {
+        [self.dot removeFromSuperview];
+    }
 	
 	if(column < 0){
 		column = 6;
