@@ -121,7 +121,7 @@ forTime = _forTime;
 <UIActionSheetDelegate>
 {
     GraphDataSetType dataSetType;
-    MaxRecordSortOption *sortOption;
+    MovementSessionSortOption *sortOption;
 }
 
 @property(nonatomic, strong)UIButton *sortOptionsButton;
@@ -179,7 +179,7 @@ indicator = _indicator;
 	self.lowestNumber = 1000000000;
 	self.graph.title.text = self.recordTitle;
 	[self.graph setPointDistance:50];
-    sortOption = MaxRecordSortOptionTime;
+    sortOption = MovementSessionSortOptionTime;
     
     self.sortOptionsButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
     self.sortOptionsButton.frame = CGRectMake(self.view.frame.size.width - 30, 15, 18, 19);
@@ -314,7 +314,7 @@ indicator = _indicator;
 
             break;
         }
-        case GraphDataSetTypeMaxRepsRecord: {
+        case GraphDataSetTypeMaxRepsSession: {
             // max reps record
             
             self.sortOptionsButton.hidden = NO;
@@ -329,7 +329,7 @@ indicator = _indicator;
                     date  = [stringFormat dateFromString:recordDateString];
                 }
                 
-                if (sortOption==MaxRecordSortOptionTime) {
+                if (sortOption==MovementSessionSortOptionTime) {
                     self.isForTime = YES;
                     NSString *timeString = @"";
                     if ([dic objectForKey:@"measurementB"] &&
@@ -393,7 +393,7 @@ indicator = _indicator;
             
             break;
         }
-        case GraphDataSetTypeMaxDistanceRecord: {
+        case GraphDataSetTypeMaxDistanceSession: {
             // distance for time record
             
             self.sortOptionsButton.hidden = YES;
@@ -450,7 +450,7 @@ indicator = _indicator;
             }
             break;
         }
-        case GraphDataSetTypeMaxHeightRecord: {
+        case GraphDataSetTypeMaxHeightSession: {
             // highest height record
             
             self.sortOptionsButton.hidden = YES;
@@ -485,7 +485,7 @@ indicator = _indicator;
             
             break;
         }
-        case GraphDataSetTypeMaxWeightRecord: {
+        case GraphDataSetTypeMaxWeightSession: {
             // * heaviest weight record
             self.sortOptionsButton.hidden = YES;
             
@@ -597,13 +597,13 @@ indicator = _indicator;
         case 0:
             // * Sort By Time
             [self.data removeAllObjects];
-            sortOption = MaxRecordSortOptionTime;
+            sortOption = MovementSessionSortOptionTime;
             [self setupOriginaldataWithSetType:dataSetType];
             break;
         case 1:
             // * Sort By Reps
             [self.data removeAllObjects];
-            sortOption = MaxRecordSortOptionOtherVariable;
+            sortOption = MovementSessionSortOptionOtherVariable;
             [self setupOriginaldataWithSetType:dataSetType];
             break;
         default:

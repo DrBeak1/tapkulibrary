@@ -37,16 +37,16 @@
 
 typedef enum {
     GraphDataSetTypeCompletedWOD,
-    GraphDataSetTypeMaxWeightRecord,
-    GraphDataSetTypeMaxDistanceRecord,
-    GraphDataSetTypeMaxHeightRecord,
-    GraphDataSetTypeMaxRepsRecord
+    GraphDataSetTypeMaxWeightSession,
+    GraphDataSetTypeMaxDistanceSession,
+    GraphDataSetTypeMaxHeightSession,
+    GraphDataSetTypeMaxRepsSession
 } GraphDataSetType;
 
 typedef enum {
-    MaxRecordSortOptionTime,
-    MaxRecordSortOptionOtherVariable
-} MaxRecordSortOption;
+    MovementSessionSortOptionTime,
+    MovementSessionSortOptionOtherVariable
+} MovementSessionSortOption;
 
 @interface GraphController : TKGraphController 
 
@@ -54,7 +54,7 @@ typedef enum {
 @property(nonatomic, retain)UIActivityIndicatorView *indicator;
 @property(assign)BOOL isForTime;
 @property(nonatomic, retain)NSMutableArray *originalData;
-@property(nonatomic, retain)NSString *recordTitle;
+@property(nonatomic, copy)NSString *recordTitle;
 @property(assign)NSInteger recordIndex;
 @property(assign)NSInteger highestNumber;
 @property(assign)NSInteger lowestNumber;
